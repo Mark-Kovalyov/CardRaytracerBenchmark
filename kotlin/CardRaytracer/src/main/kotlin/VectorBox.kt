@@ -1,0 +1,1 @@
+class VectorBox(var value : Vector)

@@ -1,0 +1,92 @@
+[cpp]
+g++ (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+
+real	0m10.087s
+user	0m10.080s
+sys	0m0.004s
+[cpp-opt]
+g++ (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+
+real	0m9.417s
+user	0m9.408s
+sys	0m0.004s
+Compare 01.cpp.ppm 01.cpp-opt.ppm
+Total 786448 bytes. Files are not differences
+[cpp-rwolf]
+g++ (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+
+real	0m9.817s
+user	0m9.812s
+sys	0m0.000s
+Compare 01.cpp.ppm 01.cpp-rwolf.ppm
+Total 786448 bytes. Files are not differences
+[java]
+java version "1.8.0_101"
+Java(TM) SE Runtime Environment (build 1.8.0_101-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.101-b13, mixed mode)
+Elapsed time : 17 sec
+
+real	0m17.573s
+user	0m17.084s
+sys	0m0.480s
+Compare 01.cpp.ppm 02.java.ppm
+Total 786448 bytes. MSE 4.4 normal
+[d]
+gdc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+
+real	0m10.475s
+user	0m10.468s
+sys	0m0.000s
+Compare 01.cpp.ppm 03.d.ppm
+Total 786448 bytes. MSE 4.4 normal
+[fpc]
+Free Pascal Compiler version 3.0.0 [2015/11/20] for x86_64
+
+real	0m25.833s
+user	0m25.820s
+sys	0m0.004s
+Compare 01.cpp.ppm 04.fpc.ppm
+Total 786448 bytes. MSE 4.8 normal
+[c-sharp]
+Mono C# compiler version 4.4.2.0
+
+real	0m34.085s
+user	0m34.072s
+sys	0m0.004s
+Compare 01.cpp.ppm 05.cs.ppm
+Total 786448 bytes. MSE 5.7 normal
+[go]
+go version go1.6.3 linux/amd64
+
+real	0m20.201s
+user	0m20.040s
+sys	0m0.152s
+Compare 01.cpp.ppm 06.go.ppm
+Total 786448 bytes. MSE 4.4 normal
+[js]
+nodejs v6.3.1
+
+real	0m25.309s
+user	0m25.108s
+sys	0m0.192s
+Compare 01.cpp.ppm 07.js.ppm
+Total 786448 bytes. MSE 4.3 normal
+[rust]
+cargo 0.11.0-nightly (259324c 2016-05-20)
+
+real	0m8.320s
+user	0m8.148s
+sys	0m0.168s
+Compare 01.cpp.ppm 08.rust.ppm
+Total 786448 bytes. MSE 4.4 normal
+Lang,Time s,Time %,MSE
+cpp,0:10.087,100.0%,
+cpp-opt,0:9.417,93.4%,
+cpp-rwolf,0:9.817,97.3%,
+java,0:17.573,174.2%,4.4
+d,0:10.475,103.8%,4.4
+fpc,0:25.833,256.1%,4.8
+c-sharp,0:34.085,337.9%,5.7
+go,0:20.201,200.3%,4.4
+js,0:25.309,250.9%,4.3
+rust,0:8.320,82.5%,4.4

@@ -1,0 +1,50 @@
+[SIZE=5][b]mayton/Intel.Core.i5.4xCPU/Windows7[/b][/SIZE]
+
+[SIZE=4][b]Environment:[/b][/SIZE]
+
+[b]Hardware & OS Configuration[/b]
+[csv=;]
+Name;Value
+MB;HP Probook
+CPU;Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz, 2501 Mhz, 2 Core(s), 4 Logical Processor(s)	
+Memory;8 G
+OS;Windows 7 Pro (6.1) x64
+[/csv]
+
+[b]Plattformer specifications[/b]
+[csv=;]
+Code;Description;Comp.options;Runtime.options
+NodeJS;Node-JS 0.12.7;-;-
+C++MinGW;MinGW-5.2.4(Win-x64);-O3;-
+Java;Oracle Java (JDK-1.7.08 x64);-g:none;-server -XX:CompileThreshold=2
+C#.Net;Microsoft C#.Net family 4.0.30319.1;/o /platform:x86 /r:mscorlib.dll /r:system.dll;
+[/csv]
+
+[SIZE=4][b]Test results:[/b][/SIZE]
+
+[b]Single-threaded benchmarks[/b]
+[csv=;]
+Platformer/option;Elapsed time(sec);MCE Aspect;Author
+C++MinGW/cpp;23.00;N/A;(Heckbert)
+C++MinGW/cpp-opt;19.79;N/A;MasterZiv
+C++MinGW/cpp-rwolf;20.31;M/A;RWolf
+Java;24.50;N/A;mayton
+C#.Net;27.00;N/A;Dima T
+C#.Net/x64;39.00;N/A;Dima T
+[/csv]
+
+[b]Multithreaded benchmarks[/b]
+[csv=;]
+Platformer/option;Parallelism;Elapsed time(sec);MCE Aspect;Author
+C#.Net/mt;4;12.00;N/A;Dima T
+C#.Net/x64/mt;4;15.00;N/A;Dima T
+Java;1;26.00;N/A;mayton
+Java;2;17.00;N/A;mayton
+Java;3;14.00;N/A;mayton
+Java;4;12.00;N/A;mayton
+Java;5;12.00;N/A;mayton
+Java;6;11.00;N/A;mayton
+[/csv]
+
+[b]Remark[/b]: there is an unchecked MCE aspect in Java-MT benchmark.
+

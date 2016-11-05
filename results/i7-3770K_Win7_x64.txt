@@ -1,0 +1,131 @@
+Proc: Intel i7-3770K 3.5 GHz
+OS: Windows 7 x64
+C++ compiler MS VC 2012 Express with /O2 /MT
+
+Lang                 ,Time s   ,Time % ,MSE
+C++_RWolf(/arch:AVX) ,0:11.075 , 85.2% ,0
+Rust_1.2.0           ,0:11.229 , 86.4% ,4.3
+C++_(MSVC2012Express),0:13.001 ,100.0% ,0
+C++_RWolf            ,0:13.006 ,100.0% ,0
+MS.Net_4.5x32        ,0:17.104 ,131.6% ,5.7
+Java_1.8.0           ,0:21.655 ,166.6% ,4.4
+MS.Net_4.5x64        ,0:22.703 ,174.6% ,5.7
+
+
+[C++_(MSVC2012Express)] 
+
+Time 13.001 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_(MSVC2012Express)] 
+
+Time 13.001 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_(MSVC2012Express)] 
+
+Time 12.998 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[Rust_1.2.0] 
+Time elapsed: 11.211949300995911 s
+Time 11.229 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.3 normal
+[Rust_1.2.0] 
+Time elapsed: 11.222059462001198 s
+Time 11.239 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.4 normal
+[Rust_1.2.0] 
+Time elapsed: 11.26770059199771 s
+Time 11.285 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.3 normal
+[C++_RWolf(/arch:AVX)] 
+
+Time 11.080 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_RWolf(/arch:AVX)] 
+
+Time 11.073 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_RWolf(/arch:AVX)] 
+
+Time 11.075 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_RWolf] 
+
+Time 13.006 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_RWolf] 
+
+Time 13.000 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[C++_RWolf] 
+
+Time 13.008 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 0 Files are not differences
+[MS.Net_4.5x32] 
+Time 17089 msec
+
+Time 17.112 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.7 normal
+[MS.Net_4.5x32] 
+Time 17081 msec
+
+Time 17.104 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.7 normal
+[MS.Net_4.5x32] 
+Time 17079 msec
+
+Time 17.102 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.7 normal
+[Java_1.8.0] 
+
+Time 21.641 sec
+
+Time 21.655 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.4 normal
+[Java_1.8.0] 
+
+Time 21.635 sec
+
+Time 21.647 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.4 normal
+[Java_1.8.0] 
+
+Time 21.766 sec
+
+Time 21.780 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 4.4 normal
+[MS.Net_4.5x64] 
+Time 22682 msec
+
+Time 22.703 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.7 normal
+[MS.Net_4.5x64] 
+Time 22705 msec
+
+Time 22.727 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.8 normal
+[MS.Net_4.5x64] 
+Time 22667 msec
+
+Time 22.690 sec
+Compare 0.ppm 1.ppm
+Total 786448 bytes. MSE 5.7 normal

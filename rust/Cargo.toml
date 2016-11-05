@@ -1,0 +1,13 @@
+[package]
+name = "card-raytracer"
+version = "0.1.0"
+authors = [" <>"]
+
+[[bin]]
+name = "card-raytracer"
+path = "src/card-raytracer.rs"
+
+[dependencies]
+rand = "*"
+num = "*"
+time="*"

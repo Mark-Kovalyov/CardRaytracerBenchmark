@@ -1,0 +1,125 @@
+Proc: Intel i7-3770K 3.5 GHz
+OS: ubuntu 15.04 x64
+
+Lang                   ,Time s    ,Time %  ,MSE
+D (gdc 4.9.2)          ,  0:11.630,   96.3%,4.4
+C++ RWolf (g++ 4.9.2)  ,  0:11.715,   97.0%,0
+rust 1.2.0             ,  0:11.808,   97.8%,4.4
+C++ (g++ 4.9.2)        ,  0:12.075,  100.0%,
+Java 1.8.0             ,  0:14.622,  121.1%,4.4
+Free Pascal (fpc 2.6.4),  0:28.807,  238.6%,4.8
+C# (mono 3.2.8)        ,  0:39.010,  323.1%,5.7
+GO (go 1.3.3)          ,  0:26.628,  220.5%,4.4
+Nodejs v4.0.0          ,  0:49.340,  408.6%,4.4
+PyPy (2.5.0)           ,  1:42.598,  849.7%,4.4
+PHP 5.6.4              , 53:42.350,26686.1%,4.4
+Python 2.7.9           ,117:56.171,58601.8%,4.4
+
+[C++ (g++ 4.9.2)]
+g++ (Ubuntu 4.9.2-10ubuntu13) 4.9.2
+
+real	0m12.075s
+user	0m12.064s
+sys	0m0.000s
+
+[Java 1.8.0]
+java version "1.8.0_60"
+Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
+Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
+Elapsed time : 14 sec
+
+real    0m14.622s
+user    0m14.056s
+sys     0m0.556s
+Compare 01.cpp.ppm 02.java.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+
+[D (gdc 4.9.2)]
+gdc (Ubuntu 4.9.2-10ubuntu13) 4.9.2
+
+real	0m11.630s
+user	0m11.624s
+sys	0m0.000s
+Compare 01.cpp.ppm 03.d.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[Free Pascal (fpc 2.6.4)]
+Free Pascal Compiler version 2.6.4+dfsg-4 [2014/10/25] for x86_64
+
+real	0m28.807s
+user	0m28.792s
+sys	0m0.000s
+Compare 01.cpp.ppm 04.fpc.ppm
+Total 786448 bytes. MSE 4.8 normal
+
+[C# (mono 3.2.8)]
+Mono C# compiler version 3.2.8.0
+
+real	0m39.010s
+user	0m38.988s
+sys	0m0.004s
+Compare 01.cpp.ppm 05.cs.ppm
+Total 786448 bytes. MSE 5.7 normal
+
+[GO (go 1.3.3)]
+go version go1.3.3 linux/amd64
+
+real	0m26.628s
+user	0m26.264s
+sys	0m0.348s
+Compare 01.cpp.ppm 06.go.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[Nodejs v4.0.0]
+nodejs v4.0.0
+
+real	0m49.340s
+user	0m48.732s
+sys	0m0.540s
+Compare 01.cpp.ppm 07.js.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[Python 2.7.9]
+real    117m56.171s
+user    117m53.068s
+sys     0m0.336s
+Compare 01.cpp.ppm 08.py.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[PHP 5.6.4]
+PHP 5.6.4-4ubuntu6.2 (cli) (built: Jul  2 2015 15:29:28) 
+
+real	53m42.350s
+user	53m40.028s
+sys	0m1.008s
+Compare 01.cpp.ppm 09.php.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[PyPy (2.5.0)]
+Python 2.7.8 (2.5.0+dfsg-2, Feb 12 2015, 05:23:41)
+PyPy 2.5.0 with GCC 4.9.2
+
+real    1m42.598s
+user    1m42.536s
+sys     0m0.016s
+Compare 01.cpp.ppm 10.py.ppm
+Total 786448 bytes. MSE 4.4 normal
+
+[C++ RWolf (g++ 4.9.2)]
+g++ (Ubuntu 4.9.2-10ubuntu13) 4.9.2
+
+real    0m11.715s
+user    0m11.708s
+sys     0m0.000s
+Compare 01.cpp.ppm 11.c.ppm
+Total 786448 bytes. MSE 0. Files are not differences
+
+[rust 1.2.0]
+rustc 1.2.0 (082e47636 2015-08-03)
+
+real    0m11.808s
+user    0m11.588s
+sys     0m0.212s
+Compare 01.cpp.ppm 12.rs.ppm
+Total 786448 bytes. MSE 4.4 normal

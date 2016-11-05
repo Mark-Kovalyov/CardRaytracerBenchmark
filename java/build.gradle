@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Properties added by the application plugin
+mainClassName             = "CardRaytracer"
+applicationDefaultJvmArgs = ["-ea"]
+applicationName           = "Card Raytracer"
+// applicationDistribution   = 
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies { 
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+run{
+    standardInput = System.in
+}
+
+
