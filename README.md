@@ -2,6 +2,8 @@
 
 ===================================
 
+![card-raytrace](https://cloud.githubusercontent.com/assets/4938337/20038818/9a4ec53c-a442-11e6-9f69-a2a8effb9464.png)
+
 Our goals:
 ---------
 
