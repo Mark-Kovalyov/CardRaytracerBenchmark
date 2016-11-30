@@ -36,7 +36,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
     static final Vector COLOR_DARK_GRAY_VECTOR = new Vector(13.0, 13.0, 13.0);
     static final Vector COLOR_SKY              = new Vector(0.7, 0.6, 1.0);
 
-    static final int G[] = {
+    static final int text[] = {
             0b00111100011100010010,
             0b01000100100000010100,
             0b01000100100000011000,
@@ -49,13 +49,13 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
     };
 
     Rectangle rect;
-    Path destDir;
+    transient Path destDir;
     SegmentPerformer segmentPerformer;
     SegmentStrategy segmentStrategy;
     int segmentSize;
     String fileFormat;
     Random random = new Random();
-    BufferedImage mutexImage;
+    transient BufferedImage mutexImage;
     boolean drawMargins = false;
     RecursiveActionFactory factory;
 
@@ -99,7 +99,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
         return new Vector(p, p, p).sum(sampler(h, r).prod(0.5));
     }
 
-    public void process(@Nonnull Rectangle rect, @Nonnull Path destDir, @Nonnull String fileFormat) throws IOException {
+    public void process(@Nonnull Rectangle rect, @Nonnull String fileFormat) throws IOException {
         int width  = rect.getWidth();
         int height = rect.getHeight();
         int[] image = new int[width * height];
@@ -141,14 +141,14 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
 
             int xd = rect.x1;
             int yd = rect.y1;
-            int X1 = WIDTH - xd - 1;
-            int X2 = WIDTH - xd - 1 - width;
+            int x1 = WIDTH - xd - 1;
+            int x2 = WIDTH - xd - 1 - width;
             int i = 0;
             for (int y = 0; y < height; y++) {
-                int Y1 = HEIGHT - yd - 1 - y;
+                int y1 = HEIGHT - yd - 1 - y;
                 // TODO: Investigate for reverse loop for x
-                for (int x = X1; x > X2; x--) {
-                    mutexImage.setRGB(x, Y1, image[i++]);
+                for (int x = x1; x > x2; x--) {
+                    mutexImage.setRGB(x, y1, image[i++]);
                 }
             }
         }
@@ -168,16 +168,16 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
 
         for (int k = 18; k >= 0; k--) {
             for (int j = 8; j >= 0; j--) {
-                if ((G[j] & 1 << k) != 0) {
-                    Vector _p = o.sum(new Vector(-k, 0.0, -j - 4.0));
-                    double b = _p.sprod(d);
-                    double c = _p.sprod(_p) - 1.0;
+                if ((text[j] & 1 << k) != 0) {
+                    Vector v = o.sum(new Vector(-k, 0.0, -j - 4.0));
+                    double b = v.sprod(d);
+                    double c = v.sprod(v) - 1.0;
                     double q = b * b - c;
                     if (q > 0) {
                         double s = -b - sqrt(q);
                         if (s < t.value && s > 0.01) {
                             t.value = s;
-                            n.value = (_p.sum(d.prod(t.value))).norm();
+                            n.value = (v.sum(d.prod(t.value))).norm();
                             m = 2;
                         }
                     }
@@ -190,7 +190,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
     protected void computeDirectly() {
         logger.trace("processing Rectangle = {}",rect.getRectString());
         try {
-            process(rect, destDir,fileFormat);
+            process(rect, fileFormat);
         } catch (IOException e) {
             logger.error(e);
         }

@@ -9,7 +9,6 @@ public class TestRectangle {
 
     @Test
     public void testParse(){
-        String filename = null;
         assertNull(Rectangle.parse(null));
         assertNull(Rectangle.parse(""));
         assertEquals(new Rectangle(437,0,512,195),
