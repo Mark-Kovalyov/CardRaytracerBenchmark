@@ -24,6 +24,20 @@ Short insructions for Users:
 
  3. Read report.
 
+Developers
+----------
+
+ 1. Mayton
+
+ 2. Ruslan (kealon)
+
+ 3. MasterZiv (masterziv)
+
+ 4. dr-sm (dr-sm)
+
+ 5. Dmitriy (dmitriyt)
+
+ 6. Igor Yudincev (wolfnstein)
 
 FAQ
 ---

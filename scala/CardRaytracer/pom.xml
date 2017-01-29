@@ -6,12 +6,16 @@
     <packaging>jar</packaging>
     <version>1.0</version>
     <name>CardRaytracer</name>
-    <url>https://sourceforge.net/projects/card-raytracer-bench/</url>
+    <url>https://github.com/Mark-Kovalyov/CardRaytracerBenchmark</url>
+
+    <developers>
+        <developer>
+            <name>mayton</name>
+        </developer>
+    </developers>
 
     <properties>
-        <!--sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory-->
-        <scala.lib.version>2.12.0-M3</scala.lib.version>
+        <scala.lib.version>2.12.1</scala.lib.version>
         <scala.plugin.version>2.15.2</scala.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

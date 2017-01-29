@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+
+# Jetbrains files
+*.iml
+java-mt/.idea/
+java-mt/.sonar/
+java-mt/target/
+scala/CardRaytracer/.idea/
+scala/CardRaytracer/target/
+

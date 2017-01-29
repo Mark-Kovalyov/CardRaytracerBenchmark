@@ -82,9 +82,6 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
 
     def tracer(o:Vector,d:Vector,t:DoubleBox,n:VectorBox) : Int = {
 
-        //wr.println(s"tracer : o = $o, d = $d, t = ${t.value}, n = ${n.value}")
-        //wr.flush
-
         t.value      = 1e9
         var m:Int    = 0
         var p:Double = -o.z / d.z
@@ -112,7 +109,6 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
         m
     }
 
-    // TODO: Fix Exception in thread "main" java.lang.StackOverflowError
     // TODO:  at scala.collection.immutable.Range.foreach$mVc$sp(Range.scala:161)
     // TODO:  at CardRaytracer.tracer(CardRaytracer.scala:97)
 
@@ -126,7 +122,7 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
         var m:Int = tracer(o, d, t, n)
 
         if (m == 0) {
-          COLOR_SKY * pow(1.0 - d.z, 4.0)
+          return COLOR_SKY * pow(1.0 - d.z, 4.0)
         }
 
         var h:Vector = o + d * t.value
