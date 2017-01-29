@@ -16,27 +16,16 @@ object Main {
     args.length match {
 
       case 0 => {
-        new CardRaytracer(out).process
-        val res = (System.currentTimeMillis - begin) / 1000
-        err.println(s"Elapsed time : $res sec\n")
+        err.println(s"Usage: java -jar CardRaytracer-X.XX filename.ext\n")
+        err.println(s"Where:\n")
+        err.println(s"  filename.ext - Filename + extension. Where extension can be 'bmp' or 'png', always 24-bit/pixel quality\n\n")
         System.exit(1)
       }
 
       case 1 => {
-        def os = new FileOutputStream(args(0))
-        new CardRaytracer(os).process
+        new CardRaytracer().process
         val res = (System.currentTimeMillis - begin) / 1000
         err.println(s"Elapsed time : $res sec\n")
-        os.close
-        System.exit(2)
-      }
-
-      case 3 => {
-        def os = new FileOutputStream(args(0))
-        new CardRaytracer(os, args(1).toInt, args(2).toInt).process
-        val res = (System.currentTimeMillis - begin) / 1000
-        err.println(s"Elapsed time : $res sec\n")
-        os.close
         System.exit(2)
       }
 

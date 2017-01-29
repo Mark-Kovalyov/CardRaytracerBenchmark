@@ -53,10 +53,11 @@ FAQ
 
 Usefull links:
 
- 1. Our project wiki:
-
-    https://sourceforge.net/p/card-raytracer-bench/wiki/Home/
-
- 2. Discussion:
+ 1. Discussion:
 
     http://www.sql.ru/forum/1173809-1/tyapnichnyy-benchmark-cpu-part-1
+
+ 2. Other like projects
+
+    https://github.com/mzucker/miniray
+    https://github.com/dcousens/RayTracer

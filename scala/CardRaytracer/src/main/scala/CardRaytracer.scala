@@ -1,6 +1,4 @@
 import java.awt.image.BufferedImage
-import java.io
-import java.io.{OutputStream, PrintWriter}
 import java.lang.Math._
 import java.nio.file.{Files, Paths}
 import javax.imageio.ImageIO
@@ -23,11 +21,11 @@ import javax.imageio.ImageIO
   *              (mayton) Loop exp. 'to' refactored with 'until'
   *              (mayton) Redundant syntax has been removed
   * 9-MAR-2015   (mayton) Fix bug in main function (thnx to avp.mk)
+  * 21-JAN-2017  (mayton) Fix Exception in thread main java.lang.StackOverflowError. Mirror 
+  *                       image left & up. Fix some 'returns'. Add color restrictions
   */
 object CardRaytracer {
 
-  val WIDTH       = 512
-  val HEIGHT      = 512
   val SUB_SAMPLES = 64
 
   implicit class IntToBase( val digits:String ) extends AnyVal {
@@ -41,13 +39,9 @@ object CardRaytracer {
 
 import CardRaytracer._
 
-class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:Int) {
-
-    var     outputStream:OutputStream    = outputStream_arg
-    lazy val printWriter:PrintWriter     = new PrintWriter(outputStream)
-
-    var width:  Int      = width_arg
-    var height: Int      = height_arg
+class CardRaytracer(val filename:String = "out.png",
+                    val width:Int  = 512,
+                    val height:Int = 512) {
 
     // Position vectors:
     val ZERO_VECTOR            = new Vector(0.0,0.0,0.0)
@@ -112,13 +106,7 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
         m
     }
 
-    // TODO:  at scala.collection.immutable.Range.foreach$mVc$sp(Range.scala:161)
-    // TODO:  at CardRaytracer.tracer(CardRaytracer.scala:97)
-
   def sampler(o: Vector,d: Vector):Vector = {
-
-        //wr.println(s"sampler : o = $o, d = $d")
-        //wr.flush
 
         var t:DoubleBox = new DoubleBox(0.0)
         var n:VectorBox = new VectorBox(ZERO_VECTOR)
@@ -153,15 +141,12 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
         return new Vector(p, p, p) + sampler(h, r) * 0.5
     }
 
-    def this(stream_arg:OutputStream) {
-        this(stream_arg,WIDTH,HEIGHT)
-    }
-
   def alignByte(a:Int) : Int = {
     min(max(a, 0),255)
   }
 
   def process() {
+    System.err.println(s"Size: $width, $height")
     val image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB)
     var g: Vector = !CAMERA_DEST_VECTOR
     var a: Vector = !(Z_ORTHO_VECTOR ^ g) * .002
@@ -182,7 +167,13 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
       var B: Int = alignByte(p.z.toInt)
       image.setRGB(width - x - 1, height - y - 1, 0xFF000000 | R << 16 | G << 8 | B )
     }
-    ImageIO.write(image, "PNG", Files.newOutputStream(Paths.get("out.png")))
+    val format = filename.substring(filename.lastIndexOf('.') + 1).toUpperCase
+    System.err.println(s"Format : $format,  filename : $filename")
+    ImageIO.write(
+      image,
+      format,
+      Files.newOutputStream(Paths.get(filename)))
+    System.err.println("OK!")
   }
 
 }
