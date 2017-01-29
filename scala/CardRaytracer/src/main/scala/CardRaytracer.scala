@@ -1,6 +1,9 @@
+import java.awt.image.BufferedImage
 import java.io
-import java.io.{PrintWriter, OutputStream}
+import java.io.{OutputStream, PrintWriter}
 import java.lang.Math._
+import java.nio.file.{Files, Paths}
+import javax.imageio.ImageIO
 
 /**
   * Special thanks to Paul Heckbert
@@ -142,20 +145,24 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
         if ((m & 1) != 0) {
             h = h * 0.2
             if (((ceil(h.x) + ceil(h.y)).toInt & 1) !=0 )
-                COLOR_CELL1_VECTOR
+                return COLOR_CELL1_VECTOR
             else
-                COLOR_CELL2_VECTOR * (b * 0.2 + 0.1)
+                return COLOR_CELL2_VECTOR * (b * 0.2 + 0.1)
         }
 
-        new Vector(p, p, p) + sampler(h, r) * 0.5
+        return new Vector(p, p, p) + sampler(h, r) * 0.5
     }
 
     def this(stream_arg:OutputStream) {
         this(stream_arg,WIDTH,HEIGHT)
     }
 
+  def alignByte(a:Int) : Int = {
+    min(max(a, 0),255)
+  }
+
   def process() {
-    printWriter.println(s"P3 $width $height 255 ")
+    val image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB)
     var g: Vector = !CAMERA_DEST_VECTOR
     var a: Vector = !(Z_ORTHO_VECTOR ^ g) * .002
     var b: Vector = !(g ^ a) * .002
@@ -170,14 +177,12 @@ class CardRaytracer(outputStream_arg:io.OutputStream, width_arg:Int, height_arg:
           !(t * -1 + (a * (Random + x) + b * (y + Random) + c) * 16)
         ) * 3.5 + p
       }
-      var R: Int = p.x.toInt
-      var G: Int = p.y.toInt
-      var B: Int = p.z.toInt
-      printWriter.write(R)
-      printWriter.write(G)
-      printWriter.write(B)
+      var R: Int = alignByte(p.x.toInt)
+      var G: Int = alignByte(p.y.toInt)
+      var B: Int = alignByte(p.z.toInt)
+      image.setRGB(width - x - 1, height - y - 1, 0xFF000000 | R << 16 | G << 8 | B )
     }
-    printWriter.flush
+    ImageIO.write(image, "PNG", Files.newOutputStream(Paths.get("out.png")))
   }
 
 }
