@@ -146,13 +146,12 @@ class CardRaytracer(val filename:String = "out.png",
   }
 
   def process() {
-    System.err.println(s"Size: $width, $height")
     val image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB)
-    var g: Vector = !CAMERA_DEST_VECTOR
-    var a: Vector = !(Z_ORTHO_VECTOR ^ g) * .002
-    var b: Vector = !(g ^ a) * .002
-    var c: Vector = (a + b) * -256.0 + g
-    var cnt:Int = 0
+    val g: Vector = !CAMERA_DEST_VECTOR
+    val a: Vector = !(Z_ORTHO_VECTOR ^ g) * .002
+    val b: Vector = !(g ^ a) * .002
+    val c: Vector = (a + b) * -256.0 + g
+    val cnt:Int = 0
     for (y <- (0 until height).reverse; x <- (0 until width).reverse) {
       var p: Vector = COLOR_DARK_GRAY_VECTOR
       for (r <- 0 until SUB_SAMPLES) {
@@ -165,10 +164,12 @@ class CardRaytracer(val filename:String = "out.png",
       var R: Int = alignByte(p.x.toInt)
       var G: Int = alignByte(p.y.toInt)
       var B: Int = alignByte(p.z.toInt)
+      //assert(R >= 0 && R < 256, "Red color should be in range [0..255]!")
+      //assert(G >= 0 && G < 256, "Green color should be in range [0..255]!")
+      //assert(B >= 0 && B < 256, "Blue color should be in range [0..255]!")
       image.setRGB(width - x - 1, height - y - 1, 0xFF000000 | R << 16 | G << 8 | B )
     }
     val format = filename.substring(filename.lastIndexOf('.') + 1).toUpperCase
-    System.err.println(s"Format : $format,  filename : $filename")
     ImageIO.write(
       image,
       format,

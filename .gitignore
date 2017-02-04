@@ -29,7 +29,11 @@
 *.app
 
 # Jetbrains files
-*.iml
+*.iml                      
+java/.idea/
+java/.sonar/
+java/target/
+java/classes/
 java-mt/.idea/
 java-mt/.sonar/
 java-mt/target/
