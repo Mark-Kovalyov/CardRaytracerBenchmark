@@ -1,1 +1,2 @@
-java -XX:+UseSerialGC -XX:CompileThreshold=2 CardRaytracer java.ppm
+java -XX:+UseSerialGC -XX:CompileThreshold=2 CardRaytracer /dev/null
+

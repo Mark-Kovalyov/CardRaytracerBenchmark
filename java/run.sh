@@ -1,2 +1,5 @@
 #!/bin/bash
-java -XX:+UseSerialGC 7-server -XX:CompileThreshold=2 CardRaytracer java.ppm
+
+#CLASSPATH=.:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib
+
+java -XX:+UseSerialGC -server -XX:CompileThreshold=2 CardRaytracer /dev/null

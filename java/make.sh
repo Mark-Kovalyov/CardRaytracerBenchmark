@@ -1,3 +1,3 @@
 #!/bin/bash
-rm *.class
+rm -f *.class
 javac -g:none CardRaytracer.java

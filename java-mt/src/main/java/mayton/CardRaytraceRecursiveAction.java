@@ -24,6 +24,8 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
 
     static final int SUB_SAMPLES = 64;
 
+    private static final long serialVersionUID = 1L;
+
     // Position vectors:
     static final Vector ZERO_VECTOR            = new Vector(0.0,0.0,0.0);
     static final Vector Z_ORTHO_VECTOR         = new Vector(0.0,0.0,1.0);
@@ -57,7 +59,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
     Random random = new Random();
     transient BufferedImage mutexImage;
     boolean drawMargins = false;
-    RecursiveActionFactory factory;
+    transient RecursiveActionFactory factory;
 
     public CardRaytraceRecursiveAction(@Nonnull Rectangle rect, @Nonnull SegmentPerformer segmentPerformer,
                                        int segmentSize, @Nonnull SegmentStrategy segmentStrategy, @Nonnull String fileFormat,
@@ -71,7 +73,6 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
         this.random.setSeed(System.currentTimeMillis());
         this.mutexImage       = mutexImage;
         factory = new RecursiveActionFactory(segmentPerformer,segmentSize,segmentStrategy,fileFormat,drawMargins);
-        ThreadContext.put("id", String.valueOf(Thread.currentThread().getId()));
         logger.trace("constructor CardRaytraceRecursiveAction Thread = {}, Rectangle = {} ",Thread.currentThread().getName(),rect.toString());
     }
 

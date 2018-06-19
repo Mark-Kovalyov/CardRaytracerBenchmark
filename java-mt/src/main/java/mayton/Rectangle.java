@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ import static java.lang.Math.min;
 import static java.lang.String.format;
 
 @Immutable
-public final class Rectangle{
+public final class Rectangle implements Serializable {
 
     final int x1,y1;
     final int x2,y2;
@@ -29,13 +30,11 @@ public final class Rectangle{
         return getWidth() * getHeight();
     }
 
-    @Nonnull
     @Override
     public String toString() {
         return format("%d-%d-%d-%d", x1, y1, x2, y2);
     }
 
-    @Nonnull
     public String getRectString(){
         return format("[ %d,%d ; %d,%d ], width = %d, height = %d, Square = %d", x1, y1, x2, y2,getWidth(),getHeight(),getSquare());
     }

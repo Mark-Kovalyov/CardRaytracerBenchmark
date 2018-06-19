@@ -3,12 +3,12 @@
 
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [ %-5level ] - %msg, ThreadId = %X{id}%n"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [ %-5level ] - %msg%n"/>
     </Console>
   </Appenders>
 
   <Loggers>
-    <Root level="info">
+    <Root level="trace">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>
