@@ -10,15 +10,15 @@ rm -f $REPORT
 
 d1="$(date +%s)"
 
-#./card-raytracer-cpp /dev/null
+./card-raytracer-cpp /dev/null
 
 d2="$(date +%s)"
 
-#./card-raytracer-opt-cpp /dev/null
+./card-raytracer-opt-cpp /dev/null
 
 d3="$(date +%s)"
 
-#./card-raytracer-rwolf-cpp /dev/null
+./card-raytracer-rwolf-cpp /dev/null
 
 d4="$(date +%s)"
 
