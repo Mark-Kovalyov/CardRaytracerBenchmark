@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash -v
 
 REPORT=cpp-report.csv
 
-OPTIONS="-Wextra -pedantic -O2 -msse4"
+OPTIONS="-O3"
 
 rm -f $REPORT
 

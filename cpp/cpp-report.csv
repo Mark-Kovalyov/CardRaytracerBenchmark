@@ -1,4 +1,0 @@
-Language/Type; Options ; Elapsed time
-C++/Canonical ; -Wextra -pedantic -O2 -msse4; 21 s
-C++/Opt       ; -Wextra -pedantic -O2 -msse4; 21 s
-C++/RWolf     ; -Wextra -pedantic -O2 -msse4; 21 s
