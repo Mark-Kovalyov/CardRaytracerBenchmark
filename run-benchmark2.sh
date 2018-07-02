@@ -16,6 +16,13 @@ g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
 fi
 
+echo clang
+if [ -e ./cpp/card-raytracer-cpp.clang ]; then
+echo "[cpp]" >> $brn
+g++ --version | head -n 1 >> $brn
+(time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
+fi
+
 echo cpp-opt
 if [ -e ./cpp/card-raytracer-opt-cpp ]; then
 echo "[cpp-opt]" >> $brn
