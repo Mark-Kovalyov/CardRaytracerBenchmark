@@ -98,6 +98,14 @@ cargo --version | head -n 1 >> $brn
 ./test-ppm/ppmcompare $ethalon 08.rust.ppm >> $brn
 fi
 
+echo .net core
+if [ -e ./dotnet/card-raytracer.dll ]; then
+echo "[.net core]" >> $brn
+dotnet --version >> $brn
+(time dotnet dotnet/card-raytracer.dll 09.cs.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 09.cs.ppm >> $brn
+fi
+
 # Please add your laucher here ... 
 ./test-ppm/resultparser $brn >> $brn
 cat $brn
