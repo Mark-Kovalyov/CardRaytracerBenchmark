@@ -66,16 +66,23 @@ Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
+NodeJS v8.10.0 |  | 121.76 s
 
 ### Python/PyPy
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 
-### C#
+### C#/.Net (The Mono C# compiler is Copyright 2001-2011, Novell, Inc)
 
-Language/Type | Options | Elapsed time
---------------|---------|-------------
+Language/Type | Options | Multithread options | Elapsed time 
+--------------|---------|---------------------|-------------
+|C#/Single-Thread | -o+ |                     | 75.31
+|C#/Multi-Thread  | -o+ | 2 threads           | 37.67
+|C#/Multi-Thread  | -o+ | 3 threads           | 41.34
+|C#/Multi-Thread  | -o+ | 4 threads           | 40.34
+|C#/Multi-Thread  | -o+ | 5 threads           | 41.76
+
 
 ### PHP
 
