@@ -66,6 +66,7 @@ Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
+NodeJS v8.10.0 |  | 121.76 s
 
 ### Python/PyPy
 
