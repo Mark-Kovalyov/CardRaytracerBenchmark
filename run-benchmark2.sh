@@ -16,6 +16,13 @@ g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
 fi
 
+echo clang
+if [ -e ./cpp/card-raytracer-cpp.clang ]; then
+echo "[cpp-clang]" >> $brn
+clang --version | head -n 1 >> $brn
+(time ./cpp/card-raytracer-cpp.clang $ethalon) 2>> $brn
+fi
+
 echo cpp-opt
 if [ -e ./cpp/card-raytracer-opt-cpp ]; then
 echo "[cpp-opt]" >> $brn
@@ -89,6 +96,14 @@ echo "[rust]" >> $brn
 cargo --version | head -n 1 >> $brn
 (time ./rust/card-raytracer-rs 08.rust.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 08.rust.ppm >> $brn
+fi
+
+echo .net core
+if [ -e ./dotnet/card-raytracer.dll ]; then
+echo "[.net core]" >> $brn
+dotnet --version >> $brn
+(time dotnet dotnet/card-raytracer.dll 09.cs.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 09.cs.ppm >> $brn
 fi
 
 # Please add your laucher here ... 
