@@ -66,12 +66,20 @@ fpc -h | head -n 1 >> $brn
 ./test-ppm/ppmcompare $ethalon 04.fpc.ppm >> $brn
 fi
 
-echo c-sharp
+echo c# mono
 if [ -e ./c-sharp/card-raytracer-cs.exe ]; then
-echo "[c-sharp]" >> $brn
+echo "[c# mono]" >> $brn
 mono-csc --version >> $brn
-(time ./c-sharp/card-raytracer-cs.exe 05.cs.ppm) 2>> $brn
-./test-ppm/ppmcompare $ethalon 05.cs.ppm >> $brn
+(time ./c-sharp/card-raytracer-cs.exe 05.cs-mono.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 05.cs-mono.ppm >> $brn
+fi
+
+echo c# .net core
+if [ -e ./c-sharp/card-raytracer.dll ]; then
+echo "[c# .net core]" >> $brn
+dotnet --version >> $brn
+(time dotnet c-sharp/card-raytracer.dll 05.cs-core.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 05.cs-core.ppm >> $brn
 fi
 
 echo go
@@ -96,14 +104,6 @@ echo "[rust]" >> $brn
 cargo --version | head -n 1 >> $brn
 (time ./rust/card-raytracer-rs 08.rust.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 08.rust.ppm >> $brn
-fi
-
-echo .net core
-if [ -e ./dotnet/card-raytracer.dll ]; then
-echo "[.net core]" >> $brn
-dotnet --version >> $brn
-(time dotnet dotnet/card-raytracer.dll 09.cs.ppm) 2>> $brn
-./test-ppm/ppmcompare $ethalon 09.cs.ppm >> $brn
 fi
 
 echo pypy
