@@ -51,7 +51,7 @@ cd ..
 fi
 
 echo d
-if [ -e ./d/card-raytracer-d2 ]; then
+if [ -e ./d/card-raytracer-d ]; then
 echo "[d]" >> $brn
 gdc --version | head -n 1 >> $brn
 (time ./d/card-raytracer-d > 03.d.ppm) 2>> $brn
@@ -83,7 +83,7 @@ dotnet --version >> $brn
 fi
 
 echo go
-if [ -e ./go/card-raytracer-go2 ]; then
+if [ -e ./go/card-raytracer-go ]; then
 echo "[go]" >> $brn
 `which go` version >> $brn
 (time ./go/card-raytracer-go > 06.go.ppm) 2>> $brn
