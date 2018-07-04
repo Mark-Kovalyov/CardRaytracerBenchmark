@@ -1,0 +1,92 @@
+[cpp (g++)]
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
+
+real	0m9.428s
+user	0m9.425s
+sys	0m0.000s
+[cpp (clang)]
+clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
+
+real	0m7.740s
+user	0m7.738s
+sys	0m0.000s
+Compare 01.cpp.ppm 01.cpp-clang.ppm
+Total 786448 bytes. MSE 4.4 normal
+[cpp-opt (g++)]
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
+
+real	0m9.229s
+user	0m9.222s
+sys	0m0.004s
+Compare 01.cpp.ppm 01.cpp-opt.ppm
+Total 786448 bytes. Files are not differences
+[cpp-rwolf (g++)]
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
+
+real	0m8.849s
+user	0m8.846s
+sys	0m0.000s
+Compare 01.cpp.ppm 01.cpp-rwolf.ppm
+Total 786448 bytes. Files are not differences
+[java]
+openjdk version "10.0.1" 2018-04-17
+OpenJDK Runtime Environment (build 10.0.1+10-Ubuntu-3ubuntu1)
+OpenJDK 64-Bit Server VM (build 10.0.1+10-Ubuntu-3ubuntu1, mixed mode)
+Elapsed time : 11 sec
+
+real	0m11.322s
+user	0m10.285s
+sys	0m1.032s
+Compare 01.cpp.ppm 02.java.ppm
+Total 786448 bytes. MSE 4.4 normal
+[fpc]
+Free Pascal Compiler version 3.0.4+dfsg-18 [2018/04/22] for x86_64
+
+real	0m25.664s
+user	0m25.631s
+sys	0m0.024s
+Compare 01.cpp.ppm 04.fpc.ppm
+Total 786448 bytes. MSE 4.8 normal
+[c-sharp]
+Mono C# compiler version 5.12.0.226
+
+real	0m34.502s
+user	0m34.491s
+sys	0m0.000s
+Compare 01.cpp.ppm 05.cs.ppm
+Total 786448 bytes. MSE 5.7 normal
+[nodejs]
+nodejs v8.10.0
+
+real	0m54.463s
+user	0m53.608s
+sys	0m0.836s
+Compare 01.cpp.ppm 07.js.ppm
+Total 786448 bytes. MSE 4.4 normal
+[.net core]
+2.1.301
+
+real	0m14.081s
+user	0m14.069s
+sys	0m0.008s
+Compare 01.cpp.ppm 09.cs.ppm
+Total 786448 bytes. MSE 5.8 normal
+pypy Python 2.7.13 (5.10.0+dfsg-3build2, Feb 06 2018, 18:37:50)
+[PyPy 5.10.0 with GCC 7.3.0]
+
+real	1m10.057s
+user	1m9.997s
+sys	0m0.036s
+Compare 01.cpp.ppm 10.py.ppm
+Total 786448 bytes. MSE 4.4 normal
+Lang,Time s,Time %,MSE
+cpp (g++),0:9.428,100.0%,
+cpp (clang),0:7.740,82.1%,4.4
+cpp-opt (g++),0:9.229,97.9%,
+cpp-rwolf (g++),0:8.849,93.9%,
+java,0:11.322,120.1%,4.4
+fpc,0:25.664,272.2%,4.8
+c-sharp,0:34.502,366.0%,5.7
+nodejs,0:54.463,577.7%,4.4
+.net core,0:14.081,149.4%,5.8
+PyPy 5.10.0 with GCC 7.3.0,1:10.057,743.1%,4.4
