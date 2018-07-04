@@ -99,7 +99,7 @@ echo -n "nodejs " >> $brn && nodejs --version >> $brn
 fi
 
 echo rust
-if [ -e ./rust/card-raytracer-rs2 ]; then
+if [ -e ./rust/card-raytracer-rs ]; then
 echo "[rust]" >> $brn
 cargo --version | head -n 1 >> $brn
 (time ./rust/card-raytracer-rs 08.rust.ppm) 2>> $brn
