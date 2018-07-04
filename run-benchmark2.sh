@@ -11,21 +11,22 @@ rm $brn
 # ----------------------------------------------------------------
 echo cpp
 if [ -e ./cpp/card-raytracer-cpp ]; then
-echo "[cpp]" >> $brn
+echo "[cpp (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
 fi
 
 echo clang
 if [ -e ./cpp/card-raytracer-cpp.clang ]; then
-echo "[cpp-clang]" >> $brn
+echo "[cpp (clang)]" >> $brn
 clang --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-cpp.clang $ethalon) 2>> $brn
+(time ./cpp/card-raytracer-cpp.clang 01.cpp-clang.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 01.cpp-clang.ppm >> $brn
 fi
 
 echo cpp-opt
 if [ -e ./cpp/card-raytracer-opt-cpp ]; then
-echo "[cpp-opt]" >> $brn
+echo "[cpp-opt (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-opt-cpp 01.cpp-opt.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 01.cpp-opt.ppm >> $brn
@@ -33,7 +34,7 @@ fi
 
 echo cpp-rwolf
 if [ -e ./cpp/card-raytracer-rwolf-cpp ]; then
-echo "[cpp-rwolf]" >> $brn
+echo "[cpp-rwolf (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-rwolf-cpp 01.cpp-rwolf.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 01.cpp-rwolf.ppm >> $brn
@@ -50,7 +51,7 @@ cd ..
 fi
 
 echo d
-if [ -e ./d/card-raytracer-d ]; then
+if [ -e ./d/card-raytracer-d2 ]; then
 echo "[d]" >> $brn
 gdc --version | head -n 1 >> $brn
 (time ./d/card-raytracer-d > 03.d.ppm) 2>> $brn
@@ -74,7 +75,7 @@ mono-csc --version >> $brn
 fi
 
 echo go
-if [ -e ./go/card-raytracer-go ]; then
+if [ -e ./go/card-raytracer-go2 ]; then
 echo "[go]" >> $brn
 `which go` version >> $brn
 (time ./go/card-raytracer-go > 06.go.ppm) 2>> $brn
@@ -82,16 +83,15 @@ echo "[go]" >> $brn
 fi
 
 echo nodejs
-if [ -f ./js/card-raytracer.js ]; then
-
-echo "[js]" >> $brn
+if [ -f ./go/card-raytracer-go ]; then
+echo "[nodejs]" >> $brn
 echo -n "nodejs " >> $brn && nodejs --version >> $brn
 (time nodejs js/card-raytracer.js > 07.js.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 07.js.ppm >> $brn
 fi
 
 echo rust
-if [ -e ./rust/card-raytracer-rs ]; then
+if [ -e ./rust/card-raytracer-rs2 ]; then
 echo "[rust]" >> $brn
 cargo --version | head -n 1 >> $brn
 (time ./rust/card-raytracer-rs 08.rust.ppm) 2>> $brn
@@ -106,6 +106,15 @@ dotnet --version >> $brn
 ./test-ppm/ppmcompare $ethalon 09.cs.ppm >> $brn
 fi
 
+echo pypy
+if [ -f ./go/card-raytracer-go ]; then
+#echo "[pypy]" >> $brn
+echo -n "pypy " >> $brn && pypy --version 2>> $brn
+(time pypy python/card-raytracer.py 10.py.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 10.py.ppm >> $brn
+fi
+
 # Please add your laucher here ... 
+
 ./test-ppm/resultparser $brn >> $brn
 cat $brn
