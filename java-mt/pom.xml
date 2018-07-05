@@ -22,7 +22,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${java.lang.version}</source>
                     <target>${java.target.version}</target>
@@ -31,7 +31,7 @@
 
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -45,11 +45,6 @@
                 </configuration>
             </plugin>
 
-            <!--
-             javac -g:none
-             java -XX:+UseSerialGC -server -XX:CompileThreshold=2 -cp . mayton.CardRaytracerMt 4 G_RATIO AD 2048 out.png
-             java -XX:+UseSerialGC -server -XX:CompileThreshold=2 -jar CardRaytracerMt-1.0.jar 4 G_RATIO AD 2048 out.png
-            -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -63,18 +58,12 @@
                 </executions>
                 <configuration>
                     <mainClass>mayton.CardRaytracerMt</mainClass>
-                    <!-- TODO: Fix -->
-                    <!--arguments>
-                        <argument>-Duser.country=US</argument>
-                        <argument>-Duser.language=en</argument>
-                        <argument>-Djava.io.tmpdir=tmp</argument>
-                    </arguments-->
                 </configuration>
             </plugin>
 
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>copy-res</id>
@@ -87,14 +76,6 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources/*.xml</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/resources/*.cmd</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/resources/*.sh</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
@@ -147,8 +128,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>

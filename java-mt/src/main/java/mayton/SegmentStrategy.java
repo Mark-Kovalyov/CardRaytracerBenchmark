@@ -17,13 +17,12 @@ public enum SegmentStrategy{
         return value;
     }
 
-    public static SegmentStrategy decode(@Nonnull String ss) {
-        switch (ss.toUpperCase()){
-            case "HD"   : return SegmentStrategy.HD;
-            case "VD"   : return SegmentStrategy.VD;
-            case "AD"   : return SegmentStrategy.AD;
-            default:
-                return null;
+    public static SegmentStrategy decode(@Nonnull String strategy) {
+        for(SegmentStrategy s : SegmentStrategy.values()) {
+            if (s.name().equals(strategy.toUpperCase())) {
+                return s;
+            }
         }
+        return null;
     }
 }
