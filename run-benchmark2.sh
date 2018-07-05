@@ -114,6 +114,14 @@ echo -n "pypy " >> $brn && pypy --version 2>> $brn
 ./test-ppm/ppmcompare $ethalon 10.py.ppm >> $brn
 fi
 
+echo c
+if [ -f ./c/Raytracer_handofdos2.exe ]; then
+echo "[c (gcc)]" >> $brn
+gcc --version >> $brn
+(time ./c/Raytracer_handofdos2.exe 11.c.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 11.c.ppm >> $brn
+fi
+
 # Please add your laucher here ... 
 
 ./test-ppm/resultparser $brn >> $brn
