@@ -56,6 +56,11 @@ Clang++/Canonical | -O3 -march=native | 15.78 s
 Clang++/Opt |       -O3 -march=native | 18.92 s
 Clang++/RWolf |     -O3 -march=native | 19.41 s
 
+### Rust (?)
+Language/Type | Options | Elapsed time
+--------------|---------|-------------
+Rust | | 19.86 s
+
 ### Java-10 (10.0.1)
 
 Language/Type | Options | Elapsed time
