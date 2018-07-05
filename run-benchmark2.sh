@@ -11,21 +11,22 @@ rm $brn
 # ----------------------------------------------------------------
 echo cpp
 if [ -e ./cpp/card-raytracer-cpp ]; then
-echo "[cpp]" >> $brn
+echo "[cpp (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
 fi
 
 echo clang
 if [ -e ./cpp/card-raytracer-cpp.clang ]; then
-echo "[cpp-clang]" >> $brn
+echo "[cpp (clang)]" >> $brn
 clang --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-cpp.clang $ethalon) 2>> $brn
+(time ./cpp/card-raytracer-cpp.clang 01.cpp-clang.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 01.cpp-clang.ppm >> $brn
 fi
 
 echo cpp-opt
 if [ -e ./cpp/card-raytracer-opt-cpp ]; then
-echo "[cpp-opt]" >> $brn
+echo "[cpp-opt (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-opt-cpp 01.cpp-opt.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 01.cpp-opt.ppm >> $brn
@@ -33,7 +34,7 @@ fi
 
 echo cpp-rwolf
 if [ -e ./cpp/card-raytracer-rwolf-cpp ]; then
-echo "[cpp-rwolf]" >> $brn
+echo "[cpp-rwolf (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
 (time ./cpp/card-raytracer-rwolf-cpp 01.cpp-rwolf.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 01.cpp-rwolf.ppm >> $brn
@@ -65,12 +66,20 @@ fpc -h | head -n 1 >> $brn
 ./test-ppm/ppmcompare $ethalon 04.fpc.ppm >> $brn
 fi
 
-echo c-sharp
+echo c# mono
 if [ -e ./c-sharp/card-raytracer-cs.exe ]; then
-echo "[c-sharp]" >> $brn
+echo "[c# mono]" >> $brn
 mono-csc --version >> $brn
-(time ./c-sharp/card-raytracer-cs.exe 05.cs.ppm) 2>> $brn
-./test-ppm/ppmcompare $ethalon 05.cs.ppm >> $brn
+(time ./c-sharp/card-raytracer-cs.exe 05.cs-mono.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 05.cs-mono.ppm >> $brn
+fi
+
+echo c# .net core
+if [ -e ./c-sharp/card-raytracer.dll ]; then
+echo "[c# .net core]" >> $brn
+dotnet --version >> $brn
+(time dotnet c-sharp/card-raytracer.dll 05.cs-core.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 05.cs-core.ppm >> $brn
 fi
 
 echo go
@@ -82,9 +91,8 @@ echo "[go]" >> $brn
 fi
 
 echo nodejs
-if [ -f ./js/card-raytracer.js ]; then
-
-echo "[js]" >> $brn
+if [ -f ./go/card-raytracer-go ]; then
+echo "[nodejs]" >> $brn
 echo -n "nodejs " >> $brn && nodejs --version >> $brn
 (time nodejs js/card-raytracer.js > 07.js.ppm) 2>> $brn
 ./test-ppm/ppmcompare $ethalon 07.js.ppm >> $brn
@@ -98,14 +106,15 @@ cargo --version | head -n 1 >> $brn
 ./test-ppm/ppmcompare $ethalon 08.rust.ppm >> $brn
 fi
 
-echo .net core
-if [ -e ./dotnet/card-raytracer.dll ]; then
-echo "[.net core]" >> $brn
-dotnet --version >> $brn
-(time dotnet dotnet/card-raytracer.dll 09.cs.ppm) 2>> $brn
-./test-ppm/ppmcompare $ethalon 09.cs.ppm >> $brn
+echo pypy
+if [ -f ./go/card-raytracer-go ]; then
+#echo "[pypy]" >> $brn
+echo -n "pypy " >> $brn && pypy --version 2>> $brn
+(time pypy python/card-raytracer.py 10.py.ppm) 2>> $brn
+./test-ppm/ppmcompare $ethalon 10.py.ppm >> $brn
 fi
 
 # Please add your laucher here ... 
+
 ./test-ppm/resultparser $brn >> $brn
 cat $brn
