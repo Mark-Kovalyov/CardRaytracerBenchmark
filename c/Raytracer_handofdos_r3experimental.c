@@ -7,6 +7,7 @@
 	Siemargl port just to C is fastest
 
 	Experimental version - embedded SSE C-operations
+    Added OpenMP pragmas - but not faster because of sync barrier needed - compile adding -fopenmp option
 */
 //#define AVX_VERSION
 
@@ -96,8 +97,11 @@ typedef union __attribute__ ((aligned(16))) {
 //!
  __m128 opNotSSE(const __m128 me)
 {
+    /* lucky faster ??? */
     __m128  k = {1,1,1,1};
 	return me * k / sqrtf(opNormSSE_single(me));
+
+//	return me * 1.0f / sqrtf(opNormSSE_single(me));
 }
 
 int G[] = {
@@ -228,7 +232,8 @@ int main(int argc,char **argv) {
     Vector b;  b.xmm = opNotSSE(opCrossSSE(g.xmm, a.xmm)) * .002f;
     Vector c;  c.xmm = (a.xmm + b.xmm) * -256 + g.xmm;
 
-	for (int y = HEIGHT; y--;) {
+#pragma omp parallel for ordered num_threads(8)
+	for (int y = HEIGHT; y > 0; y--) {
 		for (int x = WIDTH; x--;) {
 			Vector p = {.x=13, .y=13, .z=13};
 			for (int r = 64; r--;) {
@@ -239,6 +244,7 @@ int main(int argc,char **argv) {
 
 				p.xmm += sampler(c1.xmm + t.xmm, c2) * 3.5;
 			}
+			#pragma omp ordered
 			fprintf(out,"%c%c%c", (int) p.x, (int) p.y, (int) p.z);
 		}
 	}
