@@ -2,43 +2,39 @@ package mayton;
 
 import javax.annotation.Nonnull;
 
+import static java.lang.Math.random;
 import static java.lang.Math.sqrt;
 
 public enum SegmentPerformer{
 
-    QUATRO(0,0.25),
-    HALF(1,0.5),
-    THIRD(2,1.0/3.0),
-    G_RATIO(3, 1.0/((1.0+sqrt(5.0))/2.0) );
+    QUATRO(0,0.25,"Quatro"),
+    HALF(1,0.5,"Half"),
+    THIRD(2,1.0/3.0,"Third"),
+    G_RATIO(3, 1.0/((1.0+sqrt(5.0))/2.0),"Golden ratio");
 
-    SegmentPerformer(int code,double splitValue){
+    SegmentPerformer(int code,double splitValue,String desc){
         this.code = code;
         this.splitValue = splitValue;
+        this.desc = desc;
     }
 
     int code;
 
     double splitValue;
 
+    String desc;
+
     public String toString(){
-        switch (code){
-            case 0   : return "Quatro";
-            case 1   : return "Half";
-            case 2   : return "Third";
-            case 3   : return "Golden ratio";
-            default: return "";
-        }
+        return desc;
     }
 
-    public static SegmentPerformer decode(@Nonnull String arg){
-        switch (arg.toUpperCase()){
-            case "HALF"   : return HALF;
-            case "QUATRO" : return QUATRO;
-            case "G_RATIO": return G_RATIO;
-            case "THIRD"  : return THIRD;
-            default:
-                return null;
+    public static SegmentPerformer decode(@Nonnull String performer){
+        for(SegmentPerformer s : SegmentPerformer.values()) {
+            if (s.name().equals(performer)) {
+                return s;
+            }
         }
+        return null;
     }
 
 }

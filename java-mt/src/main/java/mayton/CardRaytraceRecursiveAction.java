@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -139,7 +139,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
         }
 
         synchronized (mutexImage) {
-
+            // TODO: This is fat and ugly code to copy rectangle into BufferedImage. Should be improoved with copy collections
             int xd = rect.x1;
             int yd = rect.y1;
             int x1 = WIDTH - xd - 1;

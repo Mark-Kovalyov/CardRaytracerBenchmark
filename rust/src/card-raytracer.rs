@@ -2,7 +2,6 @@ extern crate num;
 extern crate rand;
 extern crate time;
 
-use num::traits::Float;
 use rand::Rng;
 use rand::ThreadRng;
 use rand::prelude::*;

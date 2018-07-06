@@ -38,7 +38,7 @@ inline Vector* opAdd(Vector *me, const Vector *r) {
 	me->x += r->x;
 	me->y += r->y;
 	me->z += r->z;
-#ifdef AVX_VERSION
+#ifdef AVX_VERSIONzzz
 	me->zz += r->zz;
 #endif
 	return me;
@@ -49,7 +49,7 @@ inline Vector* opMul(Vector *me, float r) {
 	me->x *= r;
 	me->y *= r;
 	me->z *= r;
-#ifdef AVX_VERSION
+#ifdef AVX_VERSIONzzz
 	me->zz *= r;
 #endif
 	return me;
@@ -135,8 +135,11 @@ inline Vector* opNotC(Vector *me)
 
 inline Vector* opNotSSE(Vector *me)
 {
+    /* vectors mul faster ??? */
     __m128  k = {1,1,1,1};
     me->xmm *= k / sqrtf(opNormSSE_single(me->xmm));
+
+    //me->xmm *= 1.f / sqrtf(opNormSSE_single(me->xmm));
 	return (Vector*)me;
 }
 
@@ -180,13 +183,14 @@ float Random() {
 
 
 #ifdef AVX_VERSION
-#define opNorm(a, b) opNormSSE((a)->xmm, (b)->xmm)
-//#define opNorm opNormC
-#define opNorm_single(a) opNormSSE_single ((a)->xmm)
-#define opNot(a) opNotSSE(a)
-//#define opNot opNotC
-#define opCross opCrossSSE
-//#define opCross opCrossC
+//#define opNorm(a, b) opNormSSE((a)->xmm, (b)->xmm)
+#define opNorm opNormC
+//#define opNorm_single(a) opNormSSE_single ((a)->xmm)
+#define opNorm_single opNormC_single
+//#define opNot(a) opNotSSE(a)
+#define opNot opNotC
+//#define opCross opCrossSSE
+#define opCross opCrossC
 #else
 #define opNorm opNormC
 #define opNorm_single opNormC_single
@@ -212,7 +216,7 @@ int tracer(const Vector *o, const Vector *d, float *t, Vector* restrict n) {
 			if (G[j] & 1 << k) {
 				Vector p = {.x=-k, .y=0, .z=-j - 4};				opAdd(&p, o);
 				float b = opNorm(&p, d);
-				float c = opNorm(&p, &p) - 1;
+				float c = opNorm_single(&p) - 1;
 				float q = b * b - c;
 
 				if (q > 0) {

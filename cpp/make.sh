@@ -1,8 +1,8 @@
 #!/bin/bash -v
 
-OPTIONS="-O3"
+OPTIONS="-O3 -march=native"
 
-CLANG_OPTIONS="-O3"
+CLANG_OPTIONS="-O3 -march=native"
 
 g++ $OPTIONS card-raytracer.cpp       -o card-raytracer-cpp
 g++ $OPTIONS card-raytracer-rwolf.cpp -o card-raytracer-rwolf-cpp
