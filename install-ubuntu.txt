@@ -12,6 +12,8 @@ mono https://www.mono-project.com/download/stable/#download-lin
 svn checkout https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git/trunk/ cr
 или
 git clone https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git/ cr
+или обновить свой
+git pull https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git
 
 3. Перейти в папку cr и откомпилировать все: make.sh
 
