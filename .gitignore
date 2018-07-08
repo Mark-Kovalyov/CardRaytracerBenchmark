@@ -17,6 +17,10 @@
 *.mod
 *.smod
 
+# Rust project files
+Cargo.lock
+rust/target/
+
 # Compiled Static libraries
 *.lai
 *.la

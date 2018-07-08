@@ -10,33 +10,33 @@ rm $brn
 
 # ----------------------------------------------------------------
 echo cpp
-if [ -e ./cpp/card-raytracer-cpp ]; then
+if [ -e ./cpp/card-raytracer-cpp.exe ]; then
 echo "[cpp (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-cpp $ethalon) 2>> $brn
+(time ./cpp/card-raytracer-cpp.exe $ethalon) 2>> $brn
 fi
 
 echo clang
-if [ -e ./cpp/card-raytracer-cpp.clang ]; then
+if [ -e ./cpp/card-raytracer-cpp.clang.exe ]; then
 echo "[cpp (clang)]" >> $brn
 clang --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-cpp.clang 01.cpp-clang.ppm) 2>> $brn
+(time ./cpp/card-raytracer-cpp.clang.exe 01.cpp-clang.ppm) 2>> $brn
 ./tools/ppmcompare $ethalon 01.cpp-clang.ppm >> $brn
 fi
 
 echo cpp-opt
-if [ -e ./cpp/card-raytracer-opt-cpp ]; then
+if [ -e ./cpp/card-raytracer-opt-cpp.exe ]; then
 echo "[cpp-opt (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-opt-cpp 01.cpp-opt.ppm) 2>> $brn
+(time ./cpp/card-raytracer-opt-cpp.exe 01.cpp-opt.ppm) 2>> $brn
 ./tools/ppmcompare $ethalon 01.cpp-opt.ppm >> $brn
 fi
 
 echo cpp-rwolf
-if [ -e ./cpp/card-raytracer-rwolf-cpp ]; then
+if [ -e ./cpp/card-raytracer-rwolf-cpp.exe ]; then
 echo "[cpp-rwolf (g++)]" >> $brn
 g++ --version | head -n 1 >> $brn
-(time ./cpp/card-raytracer-rwolf-cpp 01.cpp-rwolf.ppm) 2>> $brn
+(time ./cpp/card-raytracer-rwolf-cpp.exe 01.cpp-rwolf.ppm) 2>> $brn
 ./tools/ppmcompare $ethalon 01.cpp-rwolf.ppm >> $brn
 fi
 
@@ -51,10 +51,10 @@ cd ..
 fi
 
 echo d
-if [ -e ./d/card-raytracer-d ]; then
+if [ -e ./d/card-raytracer-d.exe ]; then
 echo "[d]" >> $brn
 gdc --version | head -n 1 >> $brn
-(time ./d/card-raytracer-d > 03.d.ppm) 2>> $brn
+(time ./d/card-raytracer-d.exe > 03.d.ppm) 2>> $brn
 ./tools/ppmcompare $ethalon 03.d.ppm >> $brn
 fi
 
@@ -99,10 +99,10 @@ echo -n "nodejs " >> $brn && nodejs --version >> $brn
 fi
 
 echo rust
-if [ -e ./rust/card-raytracer-rs ]; then
+if [ -e ./rust/card-raytracer-rs.exe ]; then
 echo "[rust]" >> $brn
 cargo --version | head -n 1 >> $brn
-(time ./rust/card-raytracer-rs 08.rust.ppm) 2>> $brn
+(time ./rust/card-raytracer-rs.exe 08.rust.ppm) 2>> $brn
 ./tools/ppmcompare $ethalon 08.rust.ppm >> $brn
 fi
 
