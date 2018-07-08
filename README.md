@@ -33,17 +33,21 @@
  5. Dmitriy (dmitriyt)
 
  6. Igor Yudincev (wolfnstein)
+ 
+ 7. Siemargl
+ 
+ 
 
 # REPORTS
 
 ## Configuration: Ubuntu 16 LTS x86_64/Intel(R) Core(TM) i3-5005U CPU @ 2.00GHz
 
 ### C (gcc version 7.3.0)
-anguage/Type | Options | Elapsed time
--------------|---------|--------------
-C/Raytracer_handofdos2 | -O3 -march=native -m64 -msse4.2 -ffast-math |15,028s
-C/Raytracer_handofdosavx2 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 14,983s
-C/Raytracer_handofdosAVX3 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 58,454s
+| Author | anguage/Type | Options | Elapsed time
+------|-------|---------|--------------
+| Siemargl | C/Raytracer_handofdos2 | -O3 -march=native -m64 -msse4.2 -ffast-math |15,028s
+| Siemargl | C/Raytracer_handofdosavx2 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 14,983s
+| Siemargl | C/Raytracer_handofdosAVX3 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 58,454s
 
 ### C++ (gcc version 7.3.0, clang version 6.0.0-1ubuntu2)
 
