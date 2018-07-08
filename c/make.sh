@@ -1,5 +1,7 @@
 #!/bin/bash -v
 
+# GCC
+
 rm -f *asm
 rm -f *exe
 
@@ -16,4 +18,33 @@ gcc Raytracer_handofdos_r3experimental.c -O3 -march=native -m64 -msse4.2 -ffast-
 gcc Raytracer_handofdos_r3experimental.c -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION -S               -o Raytracer_handofdosAVX3.asm
 gcc Raytracer_handofdos_r3experimental.c -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION -S -fverbose-asm -o Raytracer_handofdosAVX3-fverbose.asm
 
+# Clang
 
+clang Raytracer_handofdos_r2.c \
+ -O3 \
+ -march=native \
+ -m64 \
+ -msse4.2 \
+ -ffast-math \
+ -lm \
+ -o Raytracer_handofdos_r2.clang.exe
+
+clang Raytracer_handofdos_r2.c \
+ -O3 \
+ -march=native \
+ -m64 \
+ -msse4.2 \
+ -ffast-math \
+ -lm \
+ -DAVX_VERSION \
+ -o Raytracer_handofdos_r2.clang.exe
+
+clang Raytracer_handofdos_r3experimental.c \
+ -O3 \
+ -march=native \
+ -m64 \
+ -msse4.2 \
+ -ffast-math \
+ -lm \
+ -DAVX_VERSION \
+ -o Raytracer_handofdos_r3experimental.clang.exe
