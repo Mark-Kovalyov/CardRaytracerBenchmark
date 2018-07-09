@@ -2,9 +2,10 @@ extern crate num;
 extern crate rand;
 extern crate time;
 
-use num::traits::Float;
 use rand::Rng;
-use rand::StdRng;
+use rand::ThreadRng;
+use rand::prelude::*;
+
 use std::env;
 use std::error::Error;
 use std::fs::File;
@@ -115,7 +116,7 @@ fn tracer(o: Vector, d: Vector, t: &mut f64, n:&mut Vector) -> i32 {
 	return m;
 }
 
-fn sampler(o: Vector, d: Vector, rng: &mut StdRng) -> Vector {
+fn sampler(o: Vector, d: Vector, rng: &mut ThreadRng) -> Vector {
 	let mut t: f64 = 0.0;
 	let mut n: Vector = Vector {x: 0.0, y: 0.0, z: 0.0};
 	let m: i32 = tracer(o, d, &mut t, &mut n);
@@ -146,7 +147,7 @@ fn sampler(o: Vector, d: Vector, rng: &mut StdRng) -> Vector {
 }
 
 fn main() {
-	let mut rng: StdRng = StdRng::new().unwrap();
+	let mut rng: ThreadRng = thread_rng();
 	let args: Vec<String> = env::args().collect();
 	if args.len() == 1 {
 		panic!("\n\nUsage: card-raytracer <filename>.ppm\n");

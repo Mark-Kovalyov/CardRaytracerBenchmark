@@ -33,12 +33,27 @@
  5. Dmitriy (dmitriyt)
 
  6. Igor Yudincev (wolfnstein)
+ 
+ 7. Siemargl
+ 
+ 
 
 # REPORTS
 
 ## Configuration: Ubuntu 16 LTS x86_64/Intel(R) Core(TM) i3-5005U CPU @ 2.00GHz
 
-### gcc version 7.3.0, clang version 6.0.0-1ubuntu2
+### C (gcc version 7.3.0/Clang)
+| Author | anguage/Type | Options | Elapsed time
+------|-------|---------|--------------
+| Siemargl | C/Raytracer_handofdos2 | -O3 -march=native -m64 -msse4.2 -ffast-math |15,028s
+| Siemargl | C/Raytracer_handofdosavx2 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 14,983s
+| Siemargl | C/Raytracer_handofdosAVX3 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 58,454s
+| Siemargl | Clang/Raytracer_handofdos_r2.clang.exe | -lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 16,868s
+| Siemargl | Clang/Raytracer_handofdos_r3experimental.clang.exe |-lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 17,461s
+
+
+
+### C++ (gcc version 7.3.0, clang version 6.0.0-1ubuntu2)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
@@ -48,6 +63,11 @@ C++/RWolf |     -O3 -march=native | 17.00 s
 Clang++/Canonical | -O3 -march=native | 15.78 s
 Clang++/Opt |       -O3 -march=native | 18.92 s
 Clang++/RWolf |     -O3 -march=native | 19.41 s
+
+### Rust (?)
+Language/Type | Options | Elapsed time
+--------------|---------|-------------
+Rust | | 19.86 s
 
 ### Java-10 (10.0.1)
 

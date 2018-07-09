@@ -69,7 +69,7 @@ public class CardRaytracerMt {
         if (args.length < 5 ){
             printf("\nUsage: java -jar CardRaytracerMt-X.XX [parallelism] [segperf] [segperf] [segstr] [filename.ext] [[drawseg]]\n\n");
             printf(" Where: \n\n");
-            printf("  parallelism  - Parallelism degree: {1,2,....n}, default = AvailableProcessors\n");
+            printf("  parallelism  - Parallelism degree: {-,1,2,....n}, default = AvailableProcessors\n");
             printf("  segperf      - Segment performer: { QUATRO | HALF | THIRD | G_RATIO }\n");
             printf("  segstr       - Segment strategy: { HD | VD | AD }\n");
             printf("                 HD - (Horizontal division by rectangles)\n");
@@ -77,7 +77,8 @@ public class CardRaytracerMt {
             printf("                 AD - (All directions)\n");
             printf("  size         - Segment size in pixels: integer \n");
             printf("  drawseg      - Draw segment-per-thead bounding boxes (debug only)\n");
-            printf("  filename.ext - Filename + extension. Where extension can be 'bmp' or 'png', always 24-bit/pixel quality\n\n");
+            printf("  filename.ext - Filename + extension. Where extension can be 'bmp' or 'png', always 24-bit/pixel quality\n");
+            printf("                 or /dev/null to omit file creation.\n\n");
             return;
         }
 
@@ -91,11 +92,16 @@ public class CardRaytracerMt {
             if ("drawseg".equalsIgnoreCase(args[5])) drawseg = true;
         }
 
-        String extension = getExtension(fileNameWithExt);
-
-        if (extension==null || !(extension.equals("png") || extension.equals("bmp"))){
-            printf_err("\nInvalid file extension!\n");
-            return;
+        String extension;
+        if (fileNameWithExt.equals("/dev/null")) {
+            logger.info("Null output device detected.");
+            extension = "BMP";
+        } else {
+            extension = getExtension(fileNameWithExt);
+            if (extension == null || !(extension.equals("png") || extension.equals("bmp"))) {
+                printf_err("\nInvalid file extension!\n");
+                return;
+            }
         }
 
         int parallesism = parseInt(sparallelism);
@@ -108,8 +114,10 @@ public class CardRaytracerMt {
         logger.info("Segment strategy      : {} ", segmentStrategy);
         logger.info("Segment performer     : {} ", segmentPerformer);
         logger.info("Minimal segment size  : {} pixels ", segmentSize);
+        logger.info("File format           : {} ", extension);
 
-        BufferedImage destImage = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+        BufferedImage destImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         CardRaytracerMt application = new CardRaytracerMt();
 
@@ -124,6 +132,7 @@ public class CardRaytracerMt {
 
         ImageIO.write(destImage, extension.toUpperCase(),
                 Files.newOutputStream(Paths.get(fileNameWithExt)));
+
 
         logger.info("Elapsed time          : {} ms", Duration.between(start,Instant.now()).toMillis());
 

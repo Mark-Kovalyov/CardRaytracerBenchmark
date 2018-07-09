@@ -1,0 +1,20 @@
+Запуск в Ubuntu
+
+1. Установка компиляторов
+
+sudo apt install g++ subversion clang gdc fp-compiler golang-go default-jdk nodejs pypy runit cargo mc mcedit
+
+Для C# установить 
+mono https://www.mono-project.com/download/stable/#download-lin
+.net core https://www.microsoft.com/net/learn/get-started/linux/ubuntu18-04
+
+2. Скачать 
+svn checkout https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git/trunk/ cr
+или
+git clone https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git/ cr
+или обновить свой
+git pull https://github.com/Mark-Kovalyov/CardRaytracerBenchmark.git
+
+3. Перейти в папку cr и откомпилировать все: make.sh
+
+4. Запустить тест run-benchmark2.sh 
