@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include <xmmintrin.h>
 #include <pmmintrin.h>  // SSE3
+#include <smmintrin.h>  // SSE4
 
 #include <time.h>
 
@@ -52,24 +53,22 @@ typedef union __attribute__ ((aligned(16))) {
     return    _mm_cvtss_f32(xx);
 }
 
+ float dot_prod_SSE41(__m128 xx, __m128 yy) {
+    __m128 res = _mm_dp_ps(xx, yy, 0xff);  // 0xF1 ??
+
+    return    _mm_cvtss_f32(res);
+}
+
+
 //%
  float opNormSSE(const __m128 me, const __m128 r) {
-	return hsum_ps_SSE3(me*r);
+//	return hsum_ps_SSE3(me*r);
+	return dot_prod_SSE41(me, r);
 }
 
  float opNormSSE_single(const __m128 me) {
-	return hsum_ps_SSE3(me*me);
-}
-
- float opNormC(const __m128 me, const __m128 r) {
-    const Vector vme = {.xmm = me};
-    const Vector vr = {.xmm = r};
-
-		return vme.x * vr.x + vme.y * vr.y + vme.z * vr.z
-#ifdef AVX_VERSION
-		 + vme.zz * vr.zz
-#endif
-		 ;
+//	return hsum_ps_SSE3(me*me);
+	return dot_prod_SSE41(me, me);
 }
 
 
@@ -98,10 +97,10 @@ typedef union __attribute__ ((aligned(16))) {
  __m128 opNotSSE(const __m128 me)
 {
     /* lucky faster ??? */
-    __m128  k = {1,1,1,1};
-	return me * k / sqrtf(opNormSSE_single(me));
+//    __m128  k = {1,1,1,1};
+//	return me * k / sqrtf(opNormSSE_single(me));
 
-//	return me * 1.0f / sqrtf(opNormSSE_single(me));
+	return me * 1.0f / sqrtf(opNormSSE_single(me));
 }
 
 int G[] = {
