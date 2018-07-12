@@ -1,5 +1,7 @@
 @echo off
 if not exist card-raytracer.exe call make.cmd
+echo .net core 1 thread
+dotnet card-raytracer.dll C#core.ppm
 echo x32 1 thread
 card-raytracer.exe C#x86.ppm
 echo x32 all CPUs
