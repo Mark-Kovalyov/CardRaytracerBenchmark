@@ -34,3 +34,5 @@ if not exist card-raytracer64.exe (
 %NETDIR64%csc.exe /out:card-raytracer64-mt.exe card-raytracer-mt.cs /platform:x64 /o /r:mscorlib.dll /r:system.dll
 
 :end
+
+dotnet build -o ./ -c release
