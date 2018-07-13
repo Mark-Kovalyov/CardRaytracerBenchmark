@@ -36,6 +36,8 @@
  
  7. Siemargl
  
+ 8. DRSM
+ 
  
 
 # REPORTS
@@ -84,9 +86,16 @@ Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
 ### Node JS
 
-Language/Type | Options | Elapsed time
---------------|---------|-------------
-NodeJS v8.10.0 |  | 121.76 s
+Author | Language/Type | Options | Elapsed time
+-|--------------|---------|-------------
+DRSM | NodeJS v8.10.0 |  | 121.76 s
+
+### GoLang
+Author | Language/Type | Options | Elapsed time
+-|--------------|---------|-------------
+DRSM |  |  | 
+
+
 
 ### Python/PyPy
 
@@ -106,8 +115,9 @@ Language/Type | Options | Multithread options | Elapsed time
 
 ### PHP
 
-Language/Type | Options | Elapsed time
---------------|---------|-------------
+Authror | Language/Type | Options | Elapsed time
+-|--------------|---------|-------------
+DRSM | | |
 
 ### Ruby
 
