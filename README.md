@@ -128,6 +128,7 @@ Language/Type | Options | Elapsed time
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
+FPC 3.0.4+dfsg-18 for x86_64 | -CX -O3 -XX -vewnhi -Fi. -Fu. -FU. | 55,48 | 
 
 ### Common Lisp
 
