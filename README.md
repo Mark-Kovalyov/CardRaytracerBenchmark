@@ -73,10 +73,10 @@ Rust | | 19.86 s
 
 ### Java-10 (10.0.1)
 
-Language/Type | Options | Elapsed time
---------------|---------|-------------
-Java | -server -XXCompileThreashold=2  | 20s
-Java/AOT | -XX:AOTLibrary=... -server -XXCompileThreashold=2 | 19s
+Author | Language/Type | Options | Elapsed time
+-------|---------------|---------|-------------
+Mayton | Java | -server -XXCompileThreashold=2  | 20s
+Mayton | Java/AOT | -XX:AOTLibrary=... -server -XXCompileThreashold=2 | 19s
 
 ### Digital Mars D : gdc (Ubuntu 8-20180414-1ubuntu2) 8.0.1 20180414 (experimental)
 
