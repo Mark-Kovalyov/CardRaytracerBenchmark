@@ -13,16 +13,18 @@ import static java.lang.System.out;
  */
 public class ConsoleUtils {
 
+    private ConsoleUtils() {}
+
     public static void println(@Nullable String line){
         out.println(line);
     }
 
-    @Nonnull
-    public static PrintStream printf_err(@Nonnull String format,@Nullable Object ...args){
+    @SuppressWarnings("squid:S106")
+    public static PrintStream printfErr(@Nonnull String format, @Nullable Object ...args){
         return err.printf(format, args);
     }
 
-    @Nonnull
+    @SuppressWarnings("squid:S106")
     public static PrintStream printf(@Nonnull String format,@Nullable Object ...args){
         return out.printf(format, args);
     }

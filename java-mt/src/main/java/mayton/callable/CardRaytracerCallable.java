@@ -1,6 +1,5 @@
 package mayton.callable;
 
-import mayton.CardRaytraceRecursiveAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +13,7 @@ public class CardRaytracerCallable implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         logger.info(":: enter call() with thread = {}", Thread.currentThread().getId());
-        Thread.sleep(new Random().nextInt(15) * 1000);
+        Thread.sleep(new Random().nextInt(15) * 1000L);
         logger.info(":: exit call() with thread = {}", Thread.currentThread().getId());
         return 0;
     }

@@ -10,7 +10,9 @@ import static java.lang.Math.sqrt;
 @Immutable
 public final class Vector {
 
-    public final double x, y, z;
+    public final double x;
+    public final double y;
+    public final double z;
 
     public Vector(double x, double y, double z) {
         this.x = x;

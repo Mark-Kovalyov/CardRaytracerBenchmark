@@ -19,7 +19,7 @@ public enum SegmentStrategy{
 
     public static SegmentStrategy decode(@Nonnull String strategy) {
         for(SegmentStrategy s : SegmentStrategy.values()) {
-            if (s.name().equals(strategy.toUpperCase())) {
+            if (s.name().equalsIgnoreCase(strategy)) {
                 return s;
             }
         }

@@ -13,6 +13,7 @@ public class Main {
 
     static Logger logger = LogManager.getLogger("Main");
 
+    @SuppressWarnings({"squid:S2142","squid:S1854"})
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);

@@ -1,6 +1,5 @@
 package mayton;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
@@ -9,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Integer.valueOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.String.format;
@@ -17,8 +15,10 @@ import static java.lang.String.format;
 @Immutable
 public final class Rectangle implements Serializable {
 
-    final int x1,y1;
-    final int x2,y2;
+    final int x1;
+    final int x2;
+    final int y1;
+    final int y2;
 
     public Rectangle(int x1, int y1, int x2, int y2) {
         this.x1 = min(x1,x2);

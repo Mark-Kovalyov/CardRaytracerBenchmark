@@ -7,7 +7,6 @@ import org.apache.logging.log4j.ThreadContext;
 import javax.annotation.Nonnull;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Random;
 import java.util.concurrent.RecursiveAction;
@@ -38,7 +37,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
     static final Vector COLOR_DARK_GRAY_VECTOR = new Vector(13.0, 13.0, 13.0);
     static final Vector COLOR_SKY              = new Vector(0.7, 0.6, 1.0);
 
-    static final int text[] = {
+    static final int[] text = {
             0b00111100011100010010,
             0b01000100100000010100,
             0b01000100100000011000,
@@ -100,7 +99,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
         return new Vector(p, p, p).sum(sampler(h, r).prod(0.5));
     }
 
-    public void process(@Nonnull Rectangle rect, @Nonnull String fileFormat) throws IOException {
+    public void process(@Nonnull Rectangle rect) {
         int width  = rect.getWidth();
         int height = rect.getHeight();
         int[] image = new int[width * height];
@@ -120,10 +119,10 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
                             t.prod(-1.0).sum(a.prod(random.nextDouble() + x).sum(b.prod(random.nextDouble() + y)).sum(c).prod(16.0)).norm()
                     ).prod(3.5).sum(p);
                 }
-                int R = (int) p.x;
-                int G = (int) p.y;
-                int B = (int) p.z;
-                image[xx + yy * width] = R << 16 | G << 8 | B ;
+                int red   = (int) p.x;
+                int green = (int) p.y;
+                int blue  = (int) p.z;
+                image[xx + yy * width] = red << 16 | green << 8 | blue ;
                 xx--;
             }
             yy--;
@@ -156,6 +155,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
 
     }
 
+    @SuppressWarnings("squid:S3776")
     private int tracer(final Vector o, final Vector d, final DoubleBox t, final VectorBox n) {
         t.value = 1e9;
         int m = 0;
@@ -190,11 +190,7 @@ public class CardRaytraceRecursiveAction extends RecursiveAction {
 
     protected void computeDirectly() {
         logger.trace("processing Rectangle = {}",rect.getRectString());
-        try {
-            process(rect, fileFormat);
-        } catch (IOException e) {
-            logger.error(e);
-        }
+        process(rect);
     }
 
     @Override

@@ -1,16 +1,20 @@
 package mayton;
 
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -18,8 +22,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Integer.valueOf;
 import static mayton.ConsoleUtils.*;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class CardRaytracerMt {
 
@@ -32,7 +36,7 @@ public class CardRaytracerMt {
                                   @Nonnull SegmentStrategy segmentStrategy,
                                   @Nonnull String fileFormat,
                                   @Nonnull BufferedImage destImage,
-                                  boolean drawSeg) throws IOException {
+                                  boolean drawSeg) {
 
         logger.trace("prepareAndProcess segmentSize = {}", segmentSize);
 
@@ -51,7 +55,7 @@ public class CardRaytracerMt {
     }
 
     public static String getExtension(String filename){
-        if (filename==null || filename.isEmpty()) {
+        if (isEmpty(filename)) {
             return null;
         }
         int lastIndex = filename.lastIndexOf('.');
@@ -61,36 +65,38 @@ public class CardRaytracerMt {
         return filename.substring(lastIndex + 1);
     }
 
-    public static void main(String[] args) throws Exception {
-        Instant start = Instant.now();
+    public static Options prepareOptions() {
+        return new Options()
+                .addOption(new Option("h", "help", false, "print this message" ))
+                .addOption(new Option("p", "parallelism", true, "parallelism degree: {-,1,2,....n}, " +
+                        "default = AvailableProcessors)"))
+                .addOption(new Option("s", "segperf", true, "segment performer: { QUATRO | HALF | THIRD | G_RATIO }"))
+                .addOption(new Option("ss", "segstr", true, "segment strategy: { HD | VD | AD }, " +
+                        "HD - (horizontal division by rectangles), " +
+                        "VD - (vertial division by rectangles), " +
+                        "AD - (all directions)"))
+                .addOption("sz","segmentsize", true, "segment size in pixels: integer")
+                .addOption("d","drawseg", false, "draw segment-per-thead bounding boxes (debug only)")
+                .addOption("f","filename", true, "filename + extension, where extension can be 'bmp' or 'png', " +
+                        "always 24-bit/pixel quality or /dev/null to omit file creation.");
+    }
 
-        boolean drawseg = false;
+    public static void printHelp(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("CardRaytracerMt", options);
+    }
 
-        if (args.length < 5 ){
-            printf("\nUsage: java -jar CardRaytracerMt-X.XX [parallelism] [segperf] [segperf] [segstr] [filename.ext] [[drawseg]]\n\n");
-            printf(" Where: \n\n");
-            printf("  parallelism  - Parallelism degree: {-,1,2,....n}, default = AvailableProcessors\n");
-            printf("  segperf      - Segment performer: { QUATRO | HALF | THIRD | G_RATIO }\n");
-            printf("  segstr       - Segment strategy: { HD | VD | AD }\n");
-            printf("                 HD - (Horizontal division by rectangles)\n");
-            printf("                 VD - (Vertial division by rectangles)\n");
-            printf("                 AD - (All directions)\n");
-            printf("  size         - Segment size in pixels: integer \n");
-            printf("  drawseg      - Draw segment-per-thead bounding boxes (debug only)\n");
-            printf("  filename.ext - Filename + extension. Where extension can be 'bmp' or 'png', always 24-bit/pixel quality\n");
-            printf("                 or /dev/null to omit file creation.\n\n");
-            return;
-        }
+    public static void process(CommandLine commandLine) throws IOException {
 
-        String sparallelism  =  args[0];
-        String sp            =  args[1];
-        String ss            =  args[2];
-        String size          =  args[3];
-        String fileNameWithExt  =  args[4];
+        boolean drawseg;
 
-        if (args.length == 6){
-            if ("drawseg".equalsIgnoreCase(args[5])) drawseg = true;
-        }
+        String sparallelism  =  commandLine.getOptionValue("p");
+        String sp            =  commandLine.getOptionValue("s");
+        String ss            =  commandLine.getOptionValue("ss");
+        String size          =  commandLine.getOptionValue("sz");
+        String fileNameWithExt = commandLine.getOptionValue("f");
+
+        drawseg = commandLine.hasOption("d");
 
         String extension;
         if (fileNameWithExt.equals("/dev/null")) {
@@ -99,7 +105,7 @@ public class CardRaytracerMt {
         } else {
             extension = getExtension(fileNameWithExt);
             if (extension == null || !(extension.equals("png") || extension.equals("bmp"))) {
-                printf_err("\nInvalid file extension!\n");
+                printfErr("\nInvalid file extension!\n");
                 return;
             }
         }
@@ -115,7 +121,6 @@ public class CardRaytracerMt {
         logger.info("Segment performer     : {} ", segmentPerformer);
         logger.info("Minimal segment size  : {} pixels ", segmentSize);
         logger.info("File format           : {} ", extension);
-
 
         BufferedImage destImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
@@ -134,8 +139,24 @@ public class CardRaytracerMt {
                 Files.newOutputStream(Paths.get(fileNameWithExt)));
 
 
-        logger.info("Elapsed time          : {} ms", Duration.between(start,Instant.now()).toMillis());
+    }
 
+    public static void main(String[] args) throws Exception {
+        Instant start = Instant.now();
+        CommandLineParser parser = new DefaultParser();
+        try {
+            Options options = prepareOptions();
+            CommandLine line = parser.parse(options, args);
+            if (line.hasOption("h")) {
+                printHelp(options);
+            } else {
+                process(line);
+            }
+            logger.info("Elapsed time          : {} ms", Duration.between(start,Instant.now()).toMillis());
+        }
+        catch( ParseException exp ) {
+            logger.error(exp.getMessage());
+        }
         System.exit(1);
     }
 }
