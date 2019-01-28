@@ -1,3 +1,8 @@
+# Haskell projects
+.stack-work
+card-cabal
+*~
+
 # Compiled Object files
 *.slo
 *.lo

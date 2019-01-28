@@ -8,6 +8,10 @@
   28-May, 2018 : mayton - Fix for 'sum', Add console tests.
 -}
 
+module Main where
+
+import Lib
+
 import System.IO
 import Text.Printf
 
