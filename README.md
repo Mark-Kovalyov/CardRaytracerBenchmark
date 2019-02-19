@@ -71,12 +71,15 @@ Language/Type | Options | Elapsed time
 --------------|---------|-------------
 Rust | | 19.86 s
 
-### Java-10 (10.0.1)
+### Java-8 (OpenJDK 64-Bit Server VM (build 25.191-b12, mixed mode))
 
-Author | Language/Type | Options | Elapsed time
--------|---------------|---------|-------------
-Mayton | Java | -server -XXCompileThreashold=2  | 20s
-Mayton | Java/AOT | -XX:AOTLibrary=... -server -XXCompileThreashold=2 | 19s
+Author | Language/Type | Multithread options | Elapsed time
+-------|---------------|-----------|-----------|
+Mayton | Java |  | 20s |
+Mayton | Java | 2 threads  | 20s
+Mayton | Java | 3 threads  | 17s
+Mayton | Java | 4 threads  | 15s
+Mayton | Java | 5 threads  | 15s
 
 ### Digital Mars D : gdc (Ubuntu 8-20180414-1ubuntu2) 8.0.1 20180414 (experimental)
 
@@ -88,12 +91,12 @@ Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
 Author | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
-DRSM | NodeJS v8.10.0 |  | 121.76 s
+DRSM | NodeJS v8.10.0 |  | 1m 30 s
 
 ### GoLang
 Author | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
-DRSM |  |  | 
+DRSM | go1.10.4 linux/amd64 |  | 43 s
 
 
 
