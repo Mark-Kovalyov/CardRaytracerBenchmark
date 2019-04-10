@@ -35,7 +35,7 @@ card_raytracer.exe [threads]
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#define LT_STAT
+//#define LT_STAT
 #ifdef NDEBUG
 #undef NDEBUG
 #endif
