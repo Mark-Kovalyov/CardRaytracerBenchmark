@@ -36,6 +36,7 @@ card_raytracer.exe [threads]
 #include <math.h>
 #include <assert.h>
 //#define LT_STAT
+//#define LT_DEBUG
 #ifdef NDEBUG
 #undef NDEBUG
 #endif
@@ -275,8 +276,8 @@ void actor_start(const char* filename, int threads) {
 	worker->parallel_set(threads);
 
 	// Ограничение количества потоков
-	lite_thread_max(threads);
-
+	//lite_thread_max(threads);
+	
 	// Создание сообщений
 	size_t idx = 0; // номер сообщения
 	for (int y = HEIGHT; y--;) {
@@ -312,7 +313,7 @@ int main(int argc, char **argv) {
 	} else {
 		threads = cpu_count();
 	}
-	printf("compile %s %s\n", __DATE__, __TIME__);
+	printf("compile %s %s   LOCK: %s\n", __DATE__, __TIME__, LOCK_TYPE_LT);
 
 	lite_time_now(); // Начало отсчета времени
 	if(threads == 0) { // Запуск оригинального кода
