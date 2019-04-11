@@ -276,7 +276,7 @@ void actor_start(const char* filename, int threads) {
 	worker->parallel_set(threads);
 
 	// Ограничение количества потоков
-	lite_thread_max(threads);
+	//lite_thread_max(threads);
 	
 	// Создание сообщений
 	size_t idx = 0; // номер сообщения
@@ -300,7 +300,7 @@ void actor_start(const char* filename, int threads) {
 
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		fprintf(stderr, "\n\nUsage: card-raytracer <filename>.ppm [threads_count]\n");
+		fprintf(stderr, "\n\nUsage: card-raytracer-actor.exe <filename>.ppm [threads_count]\n");
 		return -1;
 	}
 
