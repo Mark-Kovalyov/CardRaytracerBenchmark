@@ -276,7 +276,7 @@ void actor_start(const char* filename, int threads) {
 	worker->parallel_set(threads);
 
 	// Ограничение количества потоков
-	//lite_thread_max(threads);
+	lite_thread_max(threads);
 	
 	// Создание сообщений
 	size_t idx = 0; // номер сообщения
