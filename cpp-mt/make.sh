@@ -1,6 +1,6 @@
 #!/bin/bash -v
 
-OPTIONS="-O3 -march=native -pthread -std=c++11 -pedantic -Wall"
+OPTIONS="-O3 -march=native -pthread -std=c++11 -pedantic"
 
 rm card-raytracer-cpp-actor.exe
 g++ $OPTIONS card-raytracer-actor.cpp    -o card-raytracer-cpp-actor.exe
