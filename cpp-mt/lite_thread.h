@@ -533,9 +533,32 @@ public:
 	}
 }; 
 #else
-#define LOCK_TYPE_LT "std::mutex"
+//#define LOCK_TYPE_LT "std::mutex"
+//typedef std::mutex lite_mutex_t;
 
-typedef std::mutex lite_mutex_t;
+#define LOCK_TYPE_LT "pthread_mutex"
+#include <pthread.h>
+class lite_mutex_t {
+	pthread_mutex_t mtx;
+
+public:
+	lite_mutex_t() {
+		pthread_mutex_init(&mtx, NULL);
+	}
+
+	~lite_mutex_t() {
+		pthread_mutex_destroy(&mtx);
+	}
+
+	void lock() noexcept {
+		pthread_mutex_lock(&mtx);
+	}
+
+	void unlock() noexcept {
+		pthread_mutex_unlock(&mtx);
+	}
+};
+
 #endif
 
 
