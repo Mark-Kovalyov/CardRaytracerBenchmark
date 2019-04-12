@@ -31,10 +31,21 @@ int cpu_count() {
 	GetSystemInfo(&sysinfo);
 	return sysinfo.dwNumberOfProcessors;
 }
+
+int this_thread_id() {
+	return GetCurrentThreadId();
+}
 #else
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
 int cpu_count() {
 	return sysconf(_SC_NPROCESSORS_ONLN);
+}
+
+int this_thread_id() {
+	return syscall(__NR_gettid);
 }
 #endif
 
@@ -169,7 +180,7 @@ typedef struct {
 
 // Поток обработки одного блока
 void calc_thread(task_t* task) {
-	printf("%6d: start thread (%d...%d)\n", time_now(), task->y_to, task->y_from);
+	printf("%6d: start thread#%d (lines %d...%d)\n", time_now(), this_thread_id(), task->y_to, task->y_from);
 	Vector g = !Vector(-6, -16, 0);
 	Vector a = !(Vector(0, 0, 1) ^ g) * .002;
 	Vector b = !(g ^ a) * .002;
@@ -184,7 +195,7 @@ void calc_thread(task_t* task) {
 			task->result.push_back(p);
 		}
 	}
-	printf("%6d: thread (%d...%d) finished\n", time_now(), task->y_to, task->y_from);
+	printf("%6d: thread#%d (lines %d...%d) finished\n", time_now(), this_thread_id(), task->y_to, task->y_from);
 }
 
 void test(const char* filename, size_t thread_count) {
