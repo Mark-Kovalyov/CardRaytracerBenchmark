@@ -42,20 +42,6 @@ card_raytracer.exe [threads]
 #endif
 #include "lite_thread_util.h"
 
-#ifdef WINVER
-#include <windows.h>
-int cpu_count() {
-	SYSTEM_INFO sysinfo;
-	GetSystemInfo(&sysinfo);
-	return sysinfo.dwNumberOfProcessors;
-}
-#else
-#include <unistd.h>
-int cpu_count() {
-	return sysconf(_SC_NPROCESSORS_ONLN);
-}
-#endif
-
 #define WIDTH  512
 #define HEIGHT 512
 
@@ -116,7 +102,9 @@ int G[] = {
 };
 
 double Random() {
-	return (double)rand() / RAND_MAX;
+	thread_local uint32_t state = 12345;
+	state = state * 1103515245;
+	return (double)(state >> 16) / 65536;
 }
 
 int tracer(Vector o, Vector d, double &t, Vector& n) {
@@ -311,7 +299,7 @@ int main(int argc, char **argv) {
 		// Количество потоков
 		for (char* p = argv[2]; *p != 0 && *p >= '0' && *p <= '9'; p++) threads = threads * 10 + *p - '0';
 	} else {
-		threads = cpu_count();
+		threads = lite_cpu_count();
 	}
 	printf("compile %s %s   LOCK: %s\n", __DATE__, __TIME__, LOCK_TYPE_LT);
 
