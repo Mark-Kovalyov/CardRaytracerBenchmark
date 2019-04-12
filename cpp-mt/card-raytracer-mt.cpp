@@ -40,7 +40,10 @@ int cpu_count() {
 
 // Время с момента запуска
 int time_now() {
-	return (int)(clock() / (CLOCKS_PER_SEC / 1000));
+	static std::chrono::steady_clock::time_point t = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+	std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t);
+	return (int)(time_span.count() * 1000);
 }
 
 #define WIDTH  512
@@ -224,7 +227,7 @@ int main(int argc, char **argv) {
 		threads = cpu_count();
 	}
 	printf("compile %s %s\n", __DATE__, __TIME__);
-
+	time_now();
 	printf("use %d threads to file %s ...\n", threads, argv[1]);
 	test(argv[1], threads);
 
