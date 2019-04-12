@@ -31,10 +31,21 @@ int cpu_count() {
 	GetSystemInfo(&sysinfo);
 	return sysinfo.dwNumberOfProcessors;
 }
+
+int this_thread_id() {
+	return GetCurrentThreadId();
+}
 #else
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
 int cpu_count() {
 	return sysconf(_SC_NPROCESSORS_ONLN);
+}
+
+int this_thread_id() {
+	return syscall(__NR_gettid);
 }
 #endif
 
@@ -106,7 +117,9 @@ int G[] = {
 };
 
 double Random() {
-	return (double)rand() / RAND_MAX;
+	thread_local uint32_t state = 12345;
+	state = state * 1103515245;
+	return (double)(state >> 16) / 65536;
 }
 
 int tracer(Vector o, Vector d, double &t, Vector& n) {
@@ -159,14 +172,15 @@ Vector sampler(Vector o, Vector d) {
 	return Vector(p, p, p) + sampler(h, r) * .5;
 }
 
-// Задание на расчет
+// Задание на расчет блока строк
 typedef struct {
-	int y_from, y_to;
+	int y_from, y_to; // Строки с ... по ...
 	std::vector<Vector> result;
 } task_t;
 
 // Поток обработки одного блока
 void calc_thread(task_t* task) {
+	printf("%6d: start thread#%d (lines %d...%d)\n", time_now(), this_thread_id(), task->y_to, task->y_from);
 	Vector g = !Vector(-6, -16, 0);
 	Vector a = !(Vector(0, 0, 1) ^ g) * .002;
 	Vector b = !(g ^ a) * .002;
@@ -181,9 +195,12 @@ void calc_thread(task_t* task) {
 			task->result.push_back(p);
 		}
 	}
+	printf("%6d: thread#%d (lines %d...%d) finished\n", time_now(), this_thread_id(), task->y_to, task->y_from);
 }
 
 void test(const char* filename, size_t thread_count) {
+	printf("%6d: test %d threads to file %s\n", time_now(), (int)thread_count, filename);
+
 	FILE *out = fopen(filename, "w");
 	assert(out != NULL);
 	fprintf(out, "P6 %d %d 255 ", WIDTH, HEIGHT);
@@ -192,23 +209,23 @@ void test(const char* filename, size_t thread_count) {
 	std::vector<std::thread> threads(thread_count);
 
 	// Запуск потоков
-	int step = HEIGHT / (int)thread_count, start = 0;
+	int step = HEIGHT / (int)thread_count, start = HEIGHT; // step кол.строк на один блок
 	for (size_t i = 0; i != thread_count; i++) {
-		tasks[i].y_from = start;
-		start = i + 1 != thread_count ? start + step : HEIGHT;
-		tasks[i].y_to = start - 1;
-		tasks[i].result.reserve(WIDTH * (tasks[i].y_to - tasks[i].y_from + 1));
-		threads[i] = std::thread(calc_thread, &tasks[i]);
+		tasks[i].y_to = start - 1; // Первая строка
+		start = i + 1 != thread_count ? start - step : 0; // Начало следующего блока, для последнего 0
+		tasks[i].y_from = start; // Последняя строка
+		tasks[i].result.reserve(WIDTH * (tasks[i].y_to - tasks[i].y_from + 1)); // Выделение памяти под результат
+		threads[i] = std::thread(calc_thread, &tasks[i]); // Запуск потока
 	}
 
-	// Ожидание завершения потоков и вывод результатов
+	// Ожидание завершения потоков
 	for (size_t i = 0; i != thread_count; i++) {
-		threads[i].join();
-		for(auto& it : tasks[i].result) it.print(out);
-		printf("%d: thread %d finish \n", time_now(), (int)i);
+		threads[i].join(); // Ожидание i-го потока
+		for(auto& it : tasks[i].result) it.print(out); // Вывод результата
 	}
 
 	fclose(out);
+	printf("%6d: test end\n", time_now());
 }
 
 int main(int argc, char **argv) {
@@ -227,10 +244,7 @@ int main(int argc, char **argv) {
 		threads = cpu_count();
 	}
 	printf("compile %s %s\n", __DATE__, __TIME__);
-	time_now();
-	printf("use %d threads to file %s ...\n", threads, argv[1]);
 	test(argv[1], threads);
 
-	printf("Time: %d msec\n", time_now());
 	return 0;
 }
