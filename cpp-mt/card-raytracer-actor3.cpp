@@ -22,7 +22,7 @@ img.ppm можно посмотреть каким-нибудь просмотр
 -----------------------------------------------------------------------------------------------------------
 Запускать с параметром количество потоков
 
-card-raytracer-actor.exe <filename>.ppm [threads_count]
+card-raytracer-actor3.exe <filename>.ppm [threads_count]
 
 если указать 0 запустится оригинальный вариант без акторов
 по умолчанию threads по количеству лог. процессоров
@@ -35,6 +35,7 @@ card-raytracer-actor.exe <filename>.ppm [threads_count]
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+#include <vector>
 //#define LT_STAT
 //#define LT_DEBUG
 #ifdef NDEBUG
@@ -184,9 +185,12 @@ void original(const char* filename) {
 //Вариант с акторами
 struct msg_t : public lite_msg_t {
 	size_t idx;
-	int x;
-	int y;
-	Vector result;
+	int y; // Строка
+	std::vector<Vector> result;
+
+	msg_t() {
+		result.reserve(WIDTH);
+	}
 };
 
 // Писатель (однопоточный)
@@ -208,7 +212,7 @@ public:
 	void recv(lite_msg_t* msg) override {
 		msg_t* m = static_cast<msg_t*>(msg);
 		assert(m != NULL);
-		m->result.print(out);
+		for (auto& it : m->result) it.print(out);
 	}
 };
 
@@ -228,7 +232,7 @@ public:
 		type_add(lite_msg_type<msg_t>()); // Разрешение принимать сообщение типа msg_t
 	}
 
-	// Расчет одного пикселя
+	// Расчет одной строки
 	void calc(int x, int y, Vector& p) {
 		p.init(13, 13, 13);
 		for (int r = 64; r--;) {
@@ -241,7 +245,11 @@ public:
 	void recv(lite_msg_t* msg) override {
 		msg_t* m = static_cast<msg_t*>(msg); // Указатель на содержимое
 		assert(m != NULL);
-		calc(m->x, m->y, m->result); // Расчет
+		for (int x = WIDTH; x--;) {
+			Vector p;
+			calc(x, m->y, p); // Расчет
+			m->result.push_back(p);
+		}
 		order->run(msg); // Отправка
 	}
 
@@ -263,22 +271,16 @@ void actor_start(const char* filename, int threads) {
 	worker->name_set("worker");
 	worker->parallel_set(threads);
 
-	// Ограничение количества потоков
-	//lite_thread_max(threads);
-	
 	// Создание сообщений
 	size_t idx = 0; // номер сообщения
 	for (int y = HEIGHT; y--;) {
-		for (int x = WIDTH; x--;) {
-			// Создание сообщения
-			msg_t* msg = new msg_t;
-			// Заполнение
-			msg->idx = idx++;
-			msg->x = x;
-			msg->y = y;
-			// Отправка
-			worker->run(msg);
-		}
+		// Создание сообщения
+		msg_t* msg = new msg_t;
+		// Заполнение
+		msg->idx = idx++;
+		msg->y = y;
+		// Отправка
+		worker->run(msg);
 	}
 
 	printf("Init end: %d msec\n", (int)lite_time_now());
@@ -288,7 +290,7 @@ void actor_start(const char* filename, int threads) {
 
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		fprintf(stderr, "\n\nUsage: card-raytracer-actor.exe <filename>.ppm [threads_count]\n");
+		fprintf(stderr, "\n\nUsage: card-raytracer-actor3.exe <filename>.ppm [threads_count]\n");
 		return -1;
 	}
 

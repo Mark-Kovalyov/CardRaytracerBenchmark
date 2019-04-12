@@ -6,7 +6,7 @@
 */
 
 #include "lite_thread.h"
-#include <map>
+
 
 //----------------------------------------------------------------------------------
 //------ ВОССТАНОВЛЕНИЕ ПОСЛЕДОВАТЕЛЬНОСТИ СООБЩЕНИЙ -------------------------------
@@ -24,6 +24,7 @@
 
 */
 
+#include <map>
 template <typename T>
 class lite_order_t : public lite_actor_t {
 	typedef std::map<size_t, lite_msg_t*> cache_t;
@@ -88,14 +89,16 @@ public:
 //----------------------------------------------------------------------------------
 #ifdef LT_WIN
 #include <windows.h>
-int lite_processor_count() {
+int lite_cpu_count() {
 	SYSTEM_INFO sysinfo;
 	GetSystemInfo(&sysinfo);
 	return (int)(sysinfo.dwNumberOfProcessors > 0 ? sysinfo.dwNumberOfProcessors : 1);
 }
 #else
-int lite_processor_count() {
-	return 4;
+#include <unistd.h>
+int lite_cpu_count() {
+	int cnt = sysconf(_SC_NPROCESSORS_ONLN);
+	return cnt <= 0 ? 1 : cnt;
 }
 #endif
 
