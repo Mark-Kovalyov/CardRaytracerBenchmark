@@ -514,7 +514,6 @@ public:
 //----------------------------------------------------------------------------------
 //------ БЛОКИРОВКИ ----------------------------------------------------------------
 //----------------------------------------------------------------------------------
-#if defined LT_WIN
 #define LOCK_TYPE_LT "spinlock + Sleep(0)"
 
 class lite_mutex_t {
@@ -523,7 +522,11 @@ class lite_mutex_t {
 public:
 	void lock() noexcept {
 		while (af.test_and_set(std::memory_order_acquire)) {
+#if defined LT_WIN
 			Sleep(0);
+#else
+			usleep(0);
+#endif
 		}
 
 	}
@@ -532,34 +535,6 @@ public:
 		af.clear(std::memory_order_release);
 	}
 }; 
-#else
-//#define LOCK_TYPE_LT "std::mutex"
-//typedef std::mutex lite_mutex_t;
-
-#define LOCK_TYPE_LT "pthread_mutex"
-#include <pthread.h>
-class lite_mutex_t {
-	pthread_mutex_t mtx;
-
-public:
-	lite_mutex_t() {
-		pthread_mutex_init(&mtx, NULL);
-	}
-
-	~lite_mutex_t() {
-		pthread_mutex_destroy(&mtx);
-	}
-
-	void lock() noexcept {
-		pthread_mutex_lock(&mtx);
-	}
-
-	void unlock() noexcept {
-		pthread_mutex_unlock(&mtx);
-	}
-};
-
-#endif
 
 
 class lite_lock_t {
