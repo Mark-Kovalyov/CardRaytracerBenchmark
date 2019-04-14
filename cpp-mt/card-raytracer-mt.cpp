@@ -222,7 +222,7 @@ public:
 
 	// Обработка одной строки
 	bool calc(int y) {
-		// Смена статуса
+		// Смена статуса на ST_CALC если статус ST_EMPTY
 		int expected = ST_EMPTY;
 		if(!state.compare_exchange_weak(expected, ST_CALC)) return false; // Строка уже считается другим потоком
 		// Расчет строки
@@ -240,7 +240,14 @@ public:
 
 	// Вывод в файл
 	void print(FILE* out) {
-		if(state != ST_READY) printf("ERROR: Row not ready\n");
+		if (state != ST_READY) { // Строка недосчитана
+			// Ожидание в течении 100 мс
+			int time = time_now() + 100;
+			do {
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			} while (state != ST_READY && time_now() < time);
+			assert(state == ST_READY);
+		}
 		for (int i = WIDTH; i--;) v[i].print(out);
 	}
 
@@ -252,7 +259,8 @@ img_row_t* rows = NULL;
 class alignas(64) task_t : public align64_t {
 public:
 	std::atomic<int> cnt; // Осталось обработать
-	int row_from, row_to;
+	int row_from, row_to; // Диапазон строк
+	std::atomic<bool> is_finish = { 0 }; // Третий помогает завершиться
 
 	// Обработка потоком, владельцем задания 
 	void run() {
@@ -274,14 +282,27 @@ public:
 		return rows[row_to].is_empty();
 	}
 
+	// Обработка другим потоком, ранее освободившемся
+	bool finish() {
+		bool expected = false;
+		if (is_finish || !is_finish.compare_exchange_weak(expected, true)) return false; // Уже помогает другой поток
+
+		for (int i = row_from + (row_to - row_from) / 2; i <= row_to; i++) {
+			if (rows[i].is_empty() && rows[i].calc(i)) cnt--;
+		}
+		return true;
+	}
+
 	// Вывод в файл
 	void print(FILE* out) {
 		for (int i = row_to; i >= row_from; i--) rows[i].print(out);
 	}
 };
 
+// Задания потокам
 task_t* tasks = NULL;
 
+// Кол-во потоков
 int thread_count = 0;
 
 // Поток обработки одного блока
@@ -290,10 +311,10 @@ void calc_thread(int task_id) {
 	// Обработка своих заданий
 	tasks[task_id].run();
 	// Помощь другим потокам
-	for (int i = 0; i < thread_count; i++) {
+	while(true) {
 		int max = 0, id = -1;
 		for (int i = 0; i < thread_count; i++) {
-			if (tasks[i].need_help() && max < tasks[i].cnt) {
+			if (i != task_id && tasks[i].need_help() && max < tasks[i].cnt) {
 				max = tasks[i].cnt;
 				id = i;
 			}
@@ -304,7 +325,9 @@ void calc_thread(int task_id) {
 	}
 	// Проверка всех незавершенных
 	for (int i = 0; i < thread_count; i++) {
-		if (tasks[i].cnt > 0) tasks[i].run();
+		if (i != task_id && tasks[i].cnt > 0 && tasks[i].finish()) {
+			printf("%6d: thread#%d finished thread#%d\n", time_now(), task_id, i);
+		}
 	}
 	printf("%6d: thread#%d finished\n", time_now(), task_id);
 }
@@ -331,11 +354,10 @@ void test(const char* filename) {
 		threads[i] = std::thread(calc_thread, i); // Запуск потока
 	}
 
-	// Ожидание завершения потоков
+	// Ожидание завершения потоков и вывод результата
 	for (int i = thread_count; i--;) {
 		threads[i].join(); // Ожидание i-го потока
 		tasks[i].print(out);
-		//printf("%6d: task#%d printed\n", time_now(), i);
 	}
 
 	fclose(out);
