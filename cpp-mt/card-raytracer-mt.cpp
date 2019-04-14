@@ -209,7 +209,6 @@ Vector g = !Vector(-6, -16, 0);
 Vector a = !(Vector(0, 0, 1) ^ g) * .002;
 Vector b = !(g ^ a) * .002;
 Vector c = (a + b) * -256 + g;
-Vector p(13, 13, 13);
 
 // Расчет строки
 class img_row_t : public align64_t {
@@ -228,11 +227,12 @@ public:
 		if(!state.compare_exchange_weak(expected, ST_CALC)) return false; // Строка уже считается другим потоком
 		// Расчет строки
 		for (int x = WIDTH; x--;) {
-			v[x] = p;
+			Vector p(13, 13, 13);
 			for (int r = 64; r--;) {
 				Vector t = a * (Random() - .5) * 99 + b * (Random() - .5) * 99;
-				v[x] = sampler(Vector(17, 16, 8) + t, !(t * -1 + (a * (Random() + x) + b * (y + Random()) + c) * 16)) * 3.5 + v[x];
+				p = sampler(Vector(17, 16, 8) + t, !(t * -1 + (a * (Random() + x) + b * (y + Random()) + c) * 16)) * 3.5 + p;
 			}
+			v[x] = p;
 		}
 		state = ST_READY;
 		return true;
