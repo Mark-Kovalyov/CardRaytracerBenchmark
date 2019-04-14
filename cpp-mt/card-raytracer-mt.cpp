@@ -19,6 +19,7 @@ card-raytracer-mt.exe <filename>.ppm  [threads]
 #include <math.h>
 #include <vector>
 #include <thread>
+#include <atomic>
 #include <assert.h>
 #ifdef NDEBUG
 #undef NDEBUG
@@ -172,56 +173,169 @@ Vector sampler(Vector o, Vector d) {
 	return Vector(p, p, p) + sampler(h, r) * .5;
 }
 
-// Задание на расчет блока строк
-typedef struct {
-	int y_from, y_to; // Строки с ... по ...
-	std::vector<Vector> result;
-} task_t;
+// Выравнивание в памяти по адресам кратно 64
+class align64_t {
+public:
+	align64_t() {}
+	align64_t(int) {}
 
-// Поток обработки одного блока
-void calc_thread(task_t* task) {
-	printf("%6d: start thread#%d (lines %d...%d)\n", time_now(), this_thread_id(), task->y_to, task->y_from);
-	Vector g = !Vector(-6, -16, 0);
-	Vector a = !(Vector(0, 0, 1) ^ g) * .002;
-	Vector b = !(g ^ a) * .002;
-	Vector c = (a + b) * -256 + g;
-	for (int y = task->y_to + 1; y-- != task->y_from;) {
+	void *operator new[](size_t size) {
+#ifdef WINVER
+		void* p = _aligned_malloc(size, 0x40);
+#else
+		void *p;
+		if (posix_memalign(&p, 0x40, size)) p = NULL;
+#endif
+		if (p == NULL) {
+			assert(p != NULL);
+			throw std::bad_alloc();
+		}
+		return p;
+	}
+
+	void operator delete[](void *p) {
+#ifdef WINVER
+		_aligned_free(p);
+#else
+		free(p);
+#endif
+	}
+};
+
+enum { ST_EMPTY = 0, ST_CALC = 1, ST_READY = 2 };
+
+// Начальные константы
+Vector g = !Vector(-6, -16, 0);
+Vector a = !(Vector(0, 0, 1) ^ g) * .002;
+Vector b = !(g ^ a) * .002;
+Vector c = (a + b) * -256 + g;
+Vector p(13, 13, 13);
+
+// Расчет строки
+class img_row_t : public align64_t {
+	std::atomic<int> state = { ST_EMPTY };
+	Vector v[WIDTH];
+public:
+	// Проверка что строка не посчитана
+	bool is_empty() {
+		return state == ST_EMPTY;
+	}
+
+	// Обработка одной строки
+	bool calc(int y) {
+		// Смена статуса
+		int expected = ST_EMPTY;
+		if(!state.compare_exchange_weak(expected, ST_CALC)) return false; // Строка уже считается другим потоком
+		// Расчет строки
 		for (int x = WIDTH; x--;) {
-			Vector p(13, 13, 13);
+			v[x] = p;
 			for (int r = 64; r--;) {
 				Vector t = a * (Random() - .5) * 99 + b * (Random() - .5) * 99;
-				p = sampler(Vector(17, 16, 8) + t, !(t * -1 + (a * (Random() + x) + b * (y + Random()) + c) * 16)) * 3.5 + p;
+				v[x] = sampler(Vector(17, 16, 8) + t, !(t * -1 + (a * (Random() + x) + b * (y + Random()) + c) * 16)) * 3.5 + v[x];
 			}
-			task->result.push_back(p);
+		}
+		state = ST_READY;
+		return true;
+	}
+
+	// Вывод в файл
+	void print(FILE* out) {
+		if(state != ST_READY) printf("ERROR: Row not ready\n");
+		for (int i = WIDTH; i--;) v[i].print(out);
+	}
+
+};
+
+img_row_t* rows = NULL;
+
+// Задание одному потоку
+class alignas(64) task_t : public align64_t {
+public:
+	std::atomic<int> cnt; // Осталось обработать
+	int row_from, row_to;
+
+	// Обработка потоком, владельцем задания 
+	void run() {
+		for (int i = row_from; i <= row_to; i++) {
+			if(rows[i].calc(i)) cnt--;
 		}
 	}
-	printf("%6d: thread#%d (lines %d...%d) finished\n", time_now(), this_thread_id(), task->y_to, task->y_from);
+
+	// Обработка другим потоком, ранее освободившемся
+	void help() {
+		for (int i = row_to; i >= row_from; i--) {
+			if (!rows[i].calc(i)) break;
+			cnt--;
+		}
+	}
+
+	// Проверка что потоку никто не помогает
+	bool need_help() {
+		return rows[row_to].is_empty();
+	}
+
+	// Вывод в файл
+	void print(FILE* out) {
+		for (int i = row_to; i >= row_from; i--) rows[i].print(out);
+	}
+};
+
+task_t* tasks = NULL;
+
+int thread_count = 0;
+
+// Поток обработки одного блока
+void calc_thread(int task_id) {
+	printf("%6d: start thread#%d (lines %d...%d)\n", time_now(), task_id, tasks[task_id].row_from, tasks[task_id].row_to);
+	// Обработка своих заданий
+	tasks[task_id].run();
+	// Помощь другим потокам
+	for (int i = 0; i < thread_count; i++) {
+		int max = 0, id = -1;
+		for (int i = 0; i < thread_count; i++) {
+			if (tasks[i].need_help() && max < tasks[i].cnt) {
+				max = tasks[i].cnt;
+				id = i;
+			}
+		}
+		if (id == -1) break;
+		printf("%6d: thread#%d help to thread#%d  %d rows\n", time_now(), task_id, id, max);
+		tasks[id].help();
+	}
+	// Проверка всех незавершенных
+	for (int i = 0; i < thread_count; i++) {
+		if (tasks[i].cnt > 0) tasks[i].run();
+	}
+	printf("%6d: thread#%d finished\n", time_now(), task_id);
 }
 
-void test(const char* filename, size_t thread_count) {
+void test(const char* filename) {
 	printf("%6d: test %d threads to file %s\n", time_now(), (int)thread_count, filename);
 
 	FILE *out = fopen(filename, "w");
 	assert(out != NULL);
 	fprintf(out, "P6 %d %d 255 ", WIDTH, HEIGHT);
 
-	std::vector<task_t> tasks(thread_count);
+	rows = new img_row_t[HEIGHT];
+	tasks = new task_t[thread_count];
+
 	std::vector<std::thread> threads(thread_count);
 
 	// Запуск потоков
-	int step = HEIGHT / (int)thread_count, start = HEIGHT; // step кол.строк на один блок
-	for (size_t i = 0; i != thread_count; i++) {
-		tasks[i].y_to = start - 1; // Первая строка
-		start = i + 1 != thread_count ? start - step : 0; // Начало следующего блока, для последнего 0
-		tasks[i].y_from = start; // Последняя строка
-		tasks[i].result.reserve(WIDTH * (tasks[i].y_to - tasks[i].y_from + 1)); // Выделение памяти под результат
-		threads[i] = std::thread(calc_thread, &tasks[i]); // Запуск потока
+	int step = HEIGHT / thread_count, start = 0; // step кол.строк на один блок
+	for (int i = 0; i != thread_count; i++) {
+		tasks[i].row_from = start; // Первая строка
+		start = i + 1 != thread_count ? start + step : HEIGHT; // Начало следующего блока, для последнего 0
+		tasks[i].row_to = start - 1; // Последняя строка
+		tasks[i].cnt = tasks[i].row_to - tasks[i].row_from + 1;
+		threads[i] = std::thread(calc_thread, i); // Запуск потока
 	}
 
 	// Ожидание завершения потоков
-	for (size_t i = 0; i != thread_count; i++) {
+	for (int i = thread_count; i--;) {
 		threads[i].join(); // Ожидание i-го потока
-		for(auto& it : tasks[i].result) it.print(out); // Вывод результата
+		tasks[i].print(out);
+		//printf("%6d: task#%d printed\n", time_now(), i);
 	}
 
 	fclose(out);
@@ -234,17 +348,15 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-
-
-	int threads = 0;
+	thread_count = 0;
 	if (argc > 2) {
 		// Количество потоков
-		for (char* p = argv[2]; *p != 0 && *p >= '0' && *p <= '9'; p++) threads = threads * 10 + *p - '0';
+		for (char* p = argv[2]; *p != 0 && *p >= '0' && *p <= '9'; p++) thread_count = thread_count * 10 + *p - '0';
 	} else {
-		threads = cpu_count();
+		thread_count = cpu_count();
 	}
 	printf("compile %s %s\n", __DATE__, __TIME__);
-	test(argv[1], threads);
+	test(argv[1]);
 
 	return 0;
 }
