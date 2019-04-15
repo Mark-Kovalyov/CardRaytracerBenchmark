@@ -1,10 +1,10 @@
 ﻿/**
 Исходный тест https://github.com/Mark-Kovalyov/CardRaytracerBenchmark/blob/master/cpp/card-raytracer.cpp
 
-Распараллеливание расчета в N потоков путем разбиения на N блоков и обсчет каждого блока своим потоком
+Распараллеливание расчета в N потоков путем перебора всех строк и расчет каждой попавшейся в состоянии "не обработано". 
+По окончании всех потоков запись результата в файл.
 
 -----------------------------------------------------------------------------------------------------------
-Запускать с параметром количество потоков
 
 card-raytracer-mt.exe <filename>.ppm  [threads]
 
@@ -20,9 +20,6 @@ card-raytracer-mt.exe <filename>.ppm  [threads]
 #include <vector>
 #include <thread>
 #include <atomic>
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
@@ -184,7 +181,7 @@ Vector sampler(Vector o, Vector d) {
 //*********************************************************************************************************
 enum { ST_EMPTY = 0, ST_CALC = 1, ST_READY = 2 };
 
-// Начальные константы
+// Константы для расчета
 Vector g = !Vector(-6, -16, 0);
 Vector a = !(Vector(0, 0, 1) ^ g) * .002;
 Vector b = !(g ^ a) * .002;
@@ -216,7 +213,7 @@ public:
 		return true;
 	}
 
-	// Вывод в файл
+	// Вывод строки в файл
 	void print(FILE* out) {
 		if (state != ST_READY) { // Строка недосчитана
 			// Ожидание в течении 100 мс
@@ -260,7 +257,7 @@ void test(const char* filename, int thread_count) {
 		threads[i] = std::thread(calc_thread, i); // Запуск потока
 	}
 
-	// Ожидание завершения потоков и вывод результата
+	// Ожидание завершения потоков
 	for (int i = 0; i != thread_count; i++) {
 		threads[i].join(); // Ожидание i-го потока
 	}
