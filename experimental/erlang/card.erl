@@ -5,7 +5,7 @@
 % Erlang port
 % 
 % 07-May-2018 - (mayton) In beginning...
-
+% 07-Sep-2019 - continue
 
 -module(card).
 
@@ -13,8 +13,6 @@
 -export([newvec/3]).
 -export([sprod/2]).
 -export([sum/2]).
--export([printvec/1]).
--export([while/1,while/2]). 
 
 -define(WIDTH, 512).
 -define(HEIGHT, 512).
@@ -43,30 +41,31 @@ sampler() -> 1.
 
 tracer() -> 1.
 
+pixelRoute(x, y) ->
+	% TODO: Add pixel processing...
+	if 
+		x < ?WIDTH ->
+			pixelRoute(x + 1, y);
+		true ->
+			pixelRoute(0, y + 1)
+	end.
 
-%while(L) -> while(L,0). 
-%while([], Acc) -> Acc;
 
-%while([_|T], Acc) ->
-%   io:fwrite("~w~n",[Acc]), 
-%   while(T,Acc+1). 
-   
-%   start() -> 
-%   X = [1,2,3,4], 
-%   while(X).
-
-%for(0,_) -> 
-%   [];    
-%   for(N,Term) when N > 0 -> 
-%     io:fwrite("1"), 
-%     [Term|for(N-1,Term)]. 
-
-process() -> 1.
-   %for(?WIDTH,0),
-   %for(?HEIGHT,0).
 
 main() -> 
    io:fwrite("P6 ~p ~p 255 ",[?WIDTH,?HEIGHT]),
-   process().
-   
+   pixelRoute(0,0).
 
+   
+%card.erl:28: Warning: function prod/2 is unused
+%card.erl:32: Warning: function vprod/2 is unused
+%card.erl:36: Warning: function norm/1 is unused
+%card.erl:40: Warning: function sampler/0 is unused
+%card.erl:42: Warning: function tracer/0 is unused
+%card.erl:47: Warning: the guard for this clause evaluates to 'false'
+%card.erl:48: Warning: this expression will fail with a 'badarith' exception
+%card.erl:50: Warning: this expression will fail with a 'badarith' exception
+%P6 512 512 255 {"init terminating in do_boot",{function_clause,[{card,pixelRoute,[0,0],[{file,"card.erl"},{line,44}]},{init,start_em,1,[]},{init,do_boot,3,[]}]}}
+%init terminating in do_boot ({function_clause,[{card,pixelRoute,[0,0],[{_},{_}]},{init,start_em,1,[]},{init,do_boot,3,[]}]})
+
+%Crash dump is being written to: erl_crash.dump...done
