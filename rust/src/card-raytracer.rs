@@ -2,8 +2,6 @@ extern crate num;
 extern crate rand;
 extern crate time;
 
-use rand::Rng;
-use rand::ThreadRng;
 use rand::prelude::*;
 
 use std::env;
@@ -12,10 +10,8 @@ use std::fs::File;
 use std::io::Write;
 use std::ops::*;
 
-
 const WIDTH: i32 = 512;
 const HEIGHT: i32 = 512;
-
 
 #[derive(Copy)]
 struct Vector {

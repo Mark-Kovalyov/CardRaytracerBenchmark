@@ -1,3 +1,3 @@
 #!/bin/bash -v
 
-time ./card-raytracer-rs /dev/null
+time target/release/card-raytracer out.png

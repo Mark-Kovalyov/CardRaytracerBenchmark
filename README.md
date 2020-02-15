@@ -42,20 +42,21 @@
 
 # REPORTS
 
-## Configuration: Ubuntu 16 LTS x86_64/Intel(R) Core(TM) i3-5005U CPU @ 2.00GHz
+### Rust (rustc 1.39.0, cargo 1.39.0, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
+| Author |Language/Type | Options   | Elapsed time
+|--------|--------------|-----------|-------------
+| -      | Rust         | --release | 8.7 s
 
-### C (gcc version 7.3.0/Clang)
+### C (gcc version 7.4.0/Clang, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
 | Author | anguage/Type | Options | Elapsed time
 ------|-------|---------|--------------
-| Siemargl | C/Raytracer_handofdos2 | -O3 -march=native -m64 -msse4.2 -ffast-math |15,028s
-| Siemargl | C/Raytracer_handofdosavx2 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 14,983s
-| Siemargl | C/Raytracer_handofdosAVX3 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 58,454s
-| Siemargl | Clang/Raytracer_handofdos_r2.clang.exe | -lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 16,868s
-| Siemargl | Clang/Raytracer_handofdos_r3experimental.clang.exe |-lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 17,461s
+| Siemargl | C/Raytracer_handofdos2 | -O3 -march=native -m64 -msse4.2 -ffast-math |9.8 s
+| Siemargl | C/Raytracer_handofdosavx2 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 10.9 s
+| Siemargl | C/Raytracer_handofdosAVX3 | -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 32.7 s
+| Siemargl | Clang/Raytracer_handofdos_r2.clang.exe | -lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 10.8
+| Siemargl | Clang/Raytracer_handofdos_r3experimental.clang.exe |-lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 10.8
 
-
-
-### C++ (gcc version 7.3.0, clang version 6.0.0-1ubuntu2)
+### C++ (gcc version 7.3.0, clang version 6.0.0-1ubuntu2) (non up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
@@ -66,46 +67,39 @@ Clang++/Canonical | -O3 -march=native | 15.78 s
 Clang++/Opt |       -O3 -march=native | 18.92 s
 Clang++/RWolf |     -O3 -march=native | 19.41 s
 
-### Rust (?)
-Language/Type | Options | Elapsed time
---------------|---------|-------------
-Rust | | 19.86 s
-
-### Java-8 (OpenJDK 64-Bit Server VM (build 25.191-b12, mixed mode))
+### Java-11 (OpenJDK 11.0.4 64-Bit, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
 
 Author | Language/Type | Multithread options | Elapsed time
--------|---------------|-----------|-----------|
-Mayton | Java |  | 20s |
-Mayton | Java | 2 threads  | 20s
-Mayton | Java | 3 threads  | 17s
-Mayton | Java | 4 threads  | 15s
-Mayton | Java | 5 threads  | 15s
+-------|---------------|---------------------|-------------
+Mayton | Java          |                     | 12s
+Mayton | Java | 2 threads  | ?
+Mayton | Java | 3 threads  | ?
+Mayton | Java | 4 threads  | ?
+Mayton | Java | 5 threads  | ?
 
-### Digital Mars D : gdc (Ubuntu 8-20180414-1ubuntu2) 8.0.1 20180414 (experimental)
+### Digital Mars D : gdc (Ubuntu 8-20180414-1ubuntu2) 8.0.1 20180414 (experimental) (no up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
-### Node JS
+### Node JS (non up-to-date!)
 
 Author | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
 DRSM | NodeJS v8.10.0 |  | 1m 30 s
 
-### GoLang
+### GoLang (non up-to-date!)
 Author | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
 DRSM | go1.10.4 linux/amd64 |  | 43 s
 
-
-
-### Python/PyPy
+### Python/PyPy (non up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 
-### C#/.Net (The Mono C# compiler is Copyright 2001-2011, Novell, Inc)
+### C#/.Net (The Mono C# compiler is Copyright 2001-2011, Novell, Inc) (non up-to-date!)
 
 Language/Type | Options | Multithread options | Elapsed time 
 --------------|---------|---------------------|-------------
@@ -116,24 +110,24 @@ Language/Type | Options | Multithread options | Elapsed time
 |C#/Multi-Thread  | -o+ | 5 threads           | 41.76
 
 
-### PHP
+### PHP (non up-to-date!)
 
 Authror | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
 DRSM | | |
 
-### Ruby
+### Ruby (non up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 
-### Free Pascal
+### Free Pascal (non up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 FPC 3.0.4+dfsg-18 for x86_64 | -CX -O3 -XX -vewnhi -Fi. -Fu. -FU. | 55,48 | 
 
-### Common Lisp
+### Common Lisp (non up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
