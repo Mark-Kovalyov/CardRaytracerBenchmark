@@ -58,14 +58,14 @@
 
 ### C++ (gcc version 7.4.0, clang version 6.0.0-1ubuntu2, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 16-Feb 2020
 
-Author   | Language/Type     | Options           | Elapsed time
----------|------------------ |-------------------|-------------
-Heckbert | C++/Canonical     | -O3 -march=native | 10.37 s
-         | C++/Opt           | -O3 -march=native | 10.03 s
-RWolf    | C++/RWolf         | -O3 -march=native | 9.06 s
-Heckbert | Clang++/Canonical | -O3 -march=native | 10.67 s
-         | Clang++/Opt       | -O3 -march=native | 12.97 s
-RWolf    | Clang++/RWolf     | -O3 -march=native | 13.32 s
+|Author   | Language/Type     | Options           | Elapsed time
+|---------|-------------------|-------------------|-------------
+|Heckbert | C++/Canonical     | -O3 -march=native | 10.37 s
+|-        | C++/Opt           | -O3 -march=native | 10.03 s
+|RWolf    | C++/RWolf         | -O3 -march=native | 9.06 s
+|Heckbert | Clang++/Canonical | -O3 -march=native | 10.67 s
+|-        | Clang++/Opt       | -O3 -march=native | 12.97 s
+|RWolf    | Clang++/RWolf     | -O3 -march=native | 13.32 s
 
 ### Java-11 (OpenJDK 11.0.4 64-Bit, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
 
