@@ -1,0 +1,7 @@
+Language/Type; Options ; Elapsed time
+C++/Canonical ; -O3 -march=native ; 10.37 s
+C++/Opt ;       -O3 -march=native ; 10.03 s
+C++/RWolf ;     -O3 -march=native ; 9.06 s
+Clang++/Canonical ; -O3 -march=native ; 10.67 s
+Clang++/Opt ;       -O3 -march=native ; 12.97 s
+Clang++/RWolf ;     -O3 -march=native ; 13.32 s

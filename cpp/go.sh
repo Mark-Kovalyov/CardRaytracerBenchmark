@@ -10,27 +10,27 @@ rm -f $REPORT
 
 d1="$(date +'%s.%3N')"
 
-./card-raytracer-cpp /dev/null
+./card-raytracer-cpp.exe /dev/null
 
 d2="$(date +'%s.%3N')"
 
-./card-raytracer-opt-cpp /dev/null
+./card-raytracer-opt-cpp.exe /dev/null
 
 d3="$(date +'%s.%3N')"
 
-./card-raytracer-rwolf-cpp /dev/null
+./card-raytracer-rwolf-cpp.exe /dev/null
 
 d4="$(date +'%s.%3N')"
 
-./card-raytracer-cpp.clang /dev/null
+./card-raytracer-cpp.clang.exe /dev/null
 
 d5="$(date +'%s.%3N')"
 
-./card-raytracer-opt-cpp.clang /dev/null
+./card-raytracer-opt-cpp.clang.exe /dev/null
 
 d6="$(date +'%s.%3N')"
 
-./card-raytracer-rwolf-cpp.clang /dev/null
+./card-raytracer-rwolf-cpp.clang.exe /dev/null
 
 d7="$(date +'%s.%3N')"
 

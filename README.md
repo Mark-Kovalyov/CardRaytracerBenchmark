@@ -56,16 +56,16 @@
 | Siemargl | Clang/Raytracer_handofdos_r2.clang.exe | -lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 10.8
 | Siemargl | Clang/Raytracer_handofdos_r3experimental.clang.exe |-lm -O3 -march=native -m64 -msse4.2 -ffast-math -DAVX_VERSION | 10.8
 
-### C++ (gcc version 7.3.0, clang version 6.0.0-1ubuntu2) (non up-to-date!)
+### C++ (gcc version 7.4.0, clang version 6.0.0-1ubuntu2, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 16-Feb 2020
 
-Language/Type | Options | Elapsed time
---------------|---------|-------------
-C++/Canonical | -O3 -march=native | 18.74 s
-C++/Opt |       -O3 -march=native | 16.47 s
-C++/RWolf |     -O3 -march=native | 17.00 s
-Clang++/Canonical | -O3 -march=native | 15.78 s
-Clang++/Opt |       -O3 -march=native | 18.92 s
-Clang++/RWolf |     -O3 -march=native | 19.41 s
+Author   | Language/Type     | Options           | Elapsed time
+---------|------------------ |-------------------|-------------
+Heckbert | C++/Canonical     | -O3 -march=native | 10.37 s
+         | C++/Opt           | -O3 -march=native | 10.03 s
+RWolf    | C++/RWolf         | -O3 -march=native | 9.06 s
+Heckbert | Clang++/Canonical | -O3 -march=native | 10.67 s
+         | Clang++/Opt       | -O3 -march=native | 12.97 s
+RWolf    | Clang++/RWolf     | -O3 -march=native | 13.32 s
 
 ### Java-11 (OpenJDK 11.0.4 64-Bit, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
 
