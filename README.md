@@ -42,6 +42,35 @@
 
 # REPORTS
 
+## Hardware configuration details
+| Parameter           | Value 
+|---------------------|-------
+|Architecture:        |x86_64
+|CPU op-mode(s):      |32-bit, 64-bit
+|Byte Order:          |Little Endian
+|CPU(s):              |12|
+|On-line CPU(s) list: |0-11
+|Thread(s) per core:  |2
+|Core(s) per socket:  |6
+|Socket(s):           |1
+|NUMA node(s):        |1
+|Vendor ID:           |AuthenticAMD
+|CPU family:          |23
+|Model:               |1
+|Model name:          |AMD Ryzen 5 1600 Six-Core Processor
+|Stepping:            |1
+|CPU MHz:             |1374.622
+|CPU max MHz:         |3200.0000
+|CPU min MHz:         |1550.0000
+|BogoMIPS:            |6387.20
+|Virtualization:      |AMD-V
+|L1d cache:           |32K
+|L1i cache:           |64K
+|L2 cache:            |512K
+|L3 cache:            |8192K
+|NUMA node0 CPU(s):   |0-11
+
+
 ### Rust (rustc 1.39.0, cargo 1.39.0, Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 15-Feb-2020
 | Author |Language/Type | Options   | Elapsed time
 |--------|--------------|-----------|-------------
