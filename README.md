@@ -83,16 +83,16 @@ Language/Type | Options | Elapsed time
 --------------|---------|-------------
 Dlang | -O2 -msse4 -ffast-math | 21.14 s
 
+### GoLang (Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 29-Feb-2020
+Author | Language/Type | Options | Elapsed time
+-|--------------|---------|-------------
+DRSM | go1.10.4 linux/amd64 |  | 23 s
+
 ### Node JS (non up-to-date!)
 
 Author | Language/Type | Options | Elapsed time
 -|--------------|---------|-------------
 DRSM | NodeJS v8.10.0 |  | 1m 30 s
-
-### GoLang (non up-to-date!)
-Author | Language/Type | Options | Elapsed time
--|--------------|---------|-------------
-DRSM | go1.10.4 linux/amd64 |  | 43 s
 
 ### Python/PyPy (non up-to-date!)
 
