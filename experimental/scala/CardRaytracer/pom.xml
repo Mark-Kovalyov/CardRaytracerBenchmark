@@ -38,11 +38,10 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <version>[24.1.1,)</version>
         </dependency>
 
         <dependency>
