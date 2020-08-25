@@ -26,6 +26,11 @@ card-cabal
 Cargo.lock
 rust/target/
 
+# Java/kotlin files
+**/*.class
+**/.gradle
+kotlin-native/build
+
 # Compiled Static libraries
 *.lai
 *.la
@@ -37,17 +42,13 @@ rust/target/
 *.out
 *.app
 
+# Data files
+**/*.ppm
+
 # Jetbrains files
-*.iml                      
-java/.idea/
-java/.sonar/
-java/target/
-java/classes/
-java-mt/.idea/
-java-mt/.sonar/
-java-mt/target/
-scala/CardRaytracer/.idea/
-scala/CardRaytracer/target/
-experimental/scala/CardRaytracer/.idea/
-experimental/scala/CardRaytracer/target/
+*.iml
+**/.idea/
+**/.sonar/
+**/target/
+**/classes/
 
