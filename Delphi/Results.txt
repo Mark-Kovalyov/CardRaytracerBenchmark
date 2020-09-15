@@ -1,0 +1,9 @@
+Win32  0:1:11.34 (71.34s total)
+Win64  0:0:25.76 (25.76s total)
+
+Compared with FPC 3.04
+fpc -CX -O3 -XX -vewnhi -Fi. -Fu. -FU. card_raytracer.lpr
+Win32 0:1:6.80 (66.80s total)
+
+ppcrossx64 -CX -O3 -XX -vewnhi -Fi. -Fu. -FU. card_raytracer.lpr
+Win64 0:0:24.40 (24.40s total)
