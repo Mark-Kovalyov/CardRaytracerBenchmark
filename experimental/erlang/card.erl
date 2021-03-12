@@ -6,16 +6,23 @@
 % 
 % 07-May-2018 - (mayton) In beginning...
 % 07-Sep-2019 - continue
+% 12-Mar-2021 - Add recursive route
+
 
 -module(card).
+
+%-include_lib("stdlib/src/math.erl").
+%-include_lib("eunit/include/eunit.hrl").
+%-include_lib("stdlib/src/random.hrl").
 
 -export([main/0]).
 -export([newvec/3]).
 -export([sprod/2]).
 -export([sum/2]).
+-export([pixelRoute/2]).
 
--define(WIDTH, 512).
--define(HEIGHT, 512).
+-define(WIDTH, 5).
+-define(HEIGHT, 7).
 
 -record(vector, {x :: double,
                  y :: double,
@@ -41,31 +48,31 @@ sampler() -> 1.
 
 tracer() -> 1.
 
-pixelRoute(x, y) ->
-	% TODO: Add pixel processing...
-	if 
-		x < ?WIDTH ->
-			pixelRoute(x + 1, y);
-		true ->
-			pixelRoute(0, y + 1)
-	end.
+%subPixelRoute(X, Y, R) ->
+%  T = #vector {X = a * (random:uniform() - 0.5) * 99 + b * (Random() - .5) * 99}
+  
 
+pixelRoute(X, Y) when X < ?WIDTH , Y < ?HEIGHT -> 
+  %Vector g = !Vector(-6, -16, 0);
+  %Vector a = !(Vector(0, 0, 1) ^ g) * .002;
+  %Vector b = !(g ^ a) * .002;
+  %Vector c = (a + b) * -256 + g;
+
+  G = norm(newvec(-6.0,-16.0,0.0)),
+  A = prod(norm(newvec(0.0,0.0,1.0)),0.002),
+  B = norm(prod(vprod(G,A),0.002)),
+  C = sum((prod(sum(A,B),-256.0)),G),
+
+  F = random:uniform(),
+  io:fwrite("(~p,~p,~p);~n",[X,Y,F]),
+  pixelRoute(X + 1, Y);
+
+pixelRoute(X, Y) when X == ?WIDTH , Y < ?HEIGHT -> 
+  pixelRoute(0, Y + 1);
+
+pixelRoute(X, Y) -> ok.
 
 
 main() -> 
    io:fwrite("P6 ~p ~p 255 ",[?WIDTH,?HEIGHT]),
    pixelRoute(0,0).
-
-   
-%card.erl:28: Warning: function prod/2 is unused
-%card.erl:32: Warning: function vprod/2 is unused
-%card.erl:36: Warning: function norm/1 is unused
-%card.erl:40: Warning: function sampler/0 is unused
-%card.erl:42: Warning: function tracer/0 is unused
-%card.erl:47: Warning: the guard for this clause evaluates to 'false'
-%card.erl:48: Warning: this expression will fail with a 'badarith' exception
-%card.erl:50: Warning: this expression will fail with a 'badarith' exception
-%P6 512 512 255 {"init terminating in do_boot",{function_clause,[{card,pixelRoute,[0,0],[{file,"card.erl"},{line,44}]},{init,start_em,1,[]},{init,do_boot,3,[]}]}}
-%init terminating in do_boot ({function_clause,[{card,pixelRoute,[0,0],[{_},{_}]},{init,start_em,1,[]},{init,do_boot,3,[]}]})
-
-%Crash dump is being written to: erl_crash.dump...done
