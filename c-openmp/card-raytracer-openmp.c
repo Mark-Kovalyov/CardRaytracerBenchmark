@@ -131,15 +131,14 @@ int main(int argc,char **argv) {
   int PART_SIZE = HEIGHT / PARTITIONS;
 
   printf("Partitions = %d\n", PARTITIONS);
-	printf("Partition geometry = Rect {0,0 ; %d,%d}\n", WIDTH, PART_SIZE);
+	printf("Partition height = %d\n", PART_SIZE);
 
   int *buf = new int[WIDTH * HEIGHT * 4];
 
   omp_set_num_threads(12);
-  //omp_set_dynamic();
 	#pragma omp parallel for
 	for (int p = 0; p < PARTITIONS; p++) {
-		printf("Started thread %i for partition (y=%d)\n", omp_get_thread_num(), p);
+		printf("Started OpenMP-thread %i for partition (y=%d)\n", omp_get_thread_num(), p);
 		for (int y = 0; y < PART_SIZE; y++) {
 			int y_offset = y + p * PART_SIZE;
 			for (int x = 0 ; x < WIDTH; x++) {
@@ -148,7 +147,9 @@ int main(int argc,char **argv) {
 					Vector t = a * (Random() - .5) * 99 + b * (Random() - .5) * 99;
 					p = sampler(Vector(17, 16, 8) + t, !(t * -1 + (a * (Random() + x) + b * (y_offset + Random()) + c) * 16)) * 3.5 + p;
 				}
-				buf[x + y_offset * WIDTH] = (int) p.x << 16 | (int) p.y << 8 | (int) p.z;
+				buf[x + y_offset * WIDTH] =  (int) p.x << 16 |
+				                             (int) p.y << 8 |
+														         (int) p.z;
 			}
 		}
 		printf("Finished thread %i\n", omp_get_thread_num());
@@ -156,18 +157,17 @@ int main(int argc,char **argv) {
 	printf("Writing buffer...\n");
 	for (int y = 0; y < HEIGHT; y++) {
 		for (int x = 0 ; x < WIDTH; x++) {
-			int rgb = buf[x + y * WIDTH];
-			fprintf(out,"%c", 0xFF & rgb);
-			rgb >>= 8;
-			fprintf(out,"%c", 0xFF & rgb);
-			rgb >>= 8;
+			int rgb = buf[(WIDTH - x - 1) + (HEIGHT - y - 1) * WIDTH];
+			fprintf(out,"%c", 0xFF & (rgb >> 16));
+			fprintf(out,"%c", 0xFF & (rgb >> 8));
 			fprintf(out,"%c", 0xFF & rgb);
 		}
 	}
 	fclose(out);
 	delete buf;
 	clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-	u_int64_t delta_us = end.tv_sec - start.tv_sec; //(end.tv_sec - start.tv_sec) * 1_000_000 + (end.tv_nsec - start.tv_nsec) / 1000;
-	printf("Finish with %lu s\n", delta_us);
+	//u_int64_t delta_us = end.tv_sec - start.tv_sec;
+	int delta_us = end.tv_sec - start.tv_sec;
+	printf("Finish. Elapsed time : %i s\n", delta_us);
 	return 0;
 }
