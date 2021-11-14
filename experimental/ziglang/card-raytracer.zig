@@ -9,7 +9,6 @@ const Vector = struct {
     x: f64,
     y: f64,
     z: f64,
-    const Self = @This();
 
     pub fn init(x: f64, y: f64, z: f64) Vector {
       return Vector {
@@ -19,26 +18,26 @@ const Vector = struct {
       };
     }
 
-    pub fn plus(self: *Self, that: Vector) Vector {
+    pub fn plus(self: Vector, that: Vector) Vector {
         return Vector { self.x + that.x, self.y + that.y, self.z + that.z };
     }
 
-    pub fn vprod(self: *Self, r: Vector) Vector {
+    pub fn vprod(self: Vector, r: Vector) Vector {
         return Vector {
                 self.y * r.z - self.z * r.y,
                 self.z * r.x - self.x * r.z,
                 self.x * r.y - self.y * r.x };
     }
 
-    pub fn norm(self: *Self) Vector {
-      return self.prod(1.0 / @sqrt(self.sprod(self)));
+    pub fn norm(self: Vector) Vector {
+      return self.prod(1.0 / @sqrt(self.sprod(self)));      
     }
 
-    pub fn prod(self: *Self, r: f64) Vector {
+    pub fn prod(self: Vector, r: f64) Vector {
         return Vector.init(self.x * r, self.y * r, self.z * r);
     }
 
-    pub fn sprod(self: *Self, that: Vector) Vector {
+    pub fn sprod(self: Vector, that: Vector) f64 {
         return self.x * that.x + self.y * that.y + self.z * that.z;
     }
 };
