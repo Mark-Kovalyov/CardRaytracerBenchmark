@@ -9,6 +9,7 @@ const Vector = struct {
     x: f64,
     y: f64,
     z: f64,
+    const Self = @This();
 
     pub fn init(x: f64, y: f64, z: f64) Vector {
       return Vector {
@@ -18,50 +19,29 @@ const Vector = struct {
       };
     }
 
-    pub fn plus(that: Vector) Vector {
-        return Vector { .x + that.x, .y + that.y, .z + that.z };
+    pub fn plus(self: *Self, that: Vector) Vector {
+        return Vector { self.x + that.x, self.y + that.y, self.z + that.z };
     }
 
-    pub fn vprod(r: Vector) Vector {
+    pub fn vprod(self: *Self, r: Vector) Vector {
         return Vector {
-                .y * r.z - .z * r.y,
-                .z * r.x - .x * r.z,
-                .x * r.y - .y * r.x };
+                self.y * r.z - self.z * r.y,
+                self.z * r.x - self.x * r.z,
+                self.x * r.y - self.y * r.x };
     }
 
-    pub fn norm() Vector {
-      return @This.prod(1.0 / @sqrt(@This.sprod(@This)));
+    pub fn norm(self: *Self) Vector {
+      return self.prod(1.0 / @sqrt(self.sprod(self)));
     }
 
-    pub fn prod(r: f64) Vector {
-        return Vector.init(@This().x * r, @This().y * r, @This().z * r);
+    pub fn prod(self: *Self, r: f64) Vector {
+        return Vector.init(self.x * r, self.y * r, self.z * r);
+    }
+
+    pub fn sprod(self: *Self, that: Vector) Vector {
+        return self.x * that.x + self.y * that.y + self.z * that.z;
     }
 };
-
-//fn plus(this: Vector, that: Vector) Vector {
-//return Vector.init(this.x + that.x, this.y + that.y, this.z + that.z);
-//}
-
-//fn prod(this: Vector, r: f64) Vector {
-//    return Vector.init(this.x * r, this.y * r, this.z * r);
-//}
-
-//fn sprod(this: Vector, that: Vector) f64 {
-//    return this.x * that.x + this.y * that.y + this.z + that.z;
-//}
-
-//fn vprod(this: Vector, r: Vector) Vector {
-    //return Vector.init(
-            //this.y * r.z - this.z * r.y,
-            //this.z * r.x - this.x * r.z,
-            //this.x * r.y - this.y * r.x);
-//}
-
-//fn norm(this : Vector) Vector {
-//  const sp : f64 = sprod(this, this);
-//  const temp : f64 = @sqrt(sp);
-//  return prod(this, 1.0 / temp);
-//}
 
 const G = [_] i32 {
   0x0003C712,
@@ -87,18 +67,17 @@ const COLOR_SKY = Vector.init(0.7, 0.6, 1);
 
 // TODO: Pass n by ref to return
 pub fn tracer(o : Vector, d : Vector, t : f64, n : Vector) i32 {
+  // ....
   return 0;
 }
 
 pub fn sampler(o : Vector, d: Vector) Vector {
+  // ....
   return Vector.init(0,0,0);
 }
 
 pub fn process() void {
-  var g = CAMERA_DEST_VECTOR.norm();
-  var a = Z_ORTHO_VECTOR.vprod(g);
-  var a2 = a.norm();
-  var a3 = a2.prod(0.002);
+  var g: Vector = CAMERA_DEST_VECTOR.norm();
 }
 
 pub fn main() !void {

@@ -1,3 +1,3 @@
 #!/bin/bash -v
 
-zig build-exe card-raytracer.zig
+zig build-exe card-raytracer.zig && card-raytracer
