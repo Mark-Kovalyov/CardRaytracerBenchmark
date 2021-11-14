@@ -4,6 +4,8 @@ const std = @import("std");
 
 const WIDTH = 512;
 const HEIGHT = 512;
+const SUB_SAMPLES = 64;
+
 
 const Vector = struct {
     x: f64,
@@ -30,7 +32,7 @@ const Vector = struct {
     }
 
     pub fn norm(self: Vector) Vector {
-      return self.prod(1.0 / @sqrt(self.sprod(self)));      
+      return self.prod(1.0 / @sqrt(self.sprod(self)));
     }
 
     pub fn prod(self: Vector, r: f64) Vector {
@@ -77,6 +79,27 @@ pub fn sampler(o : Vector, d: Vector) Vector {
 
 pub fn process() void {
   var g: Vector = CAMERA_DEST_VECTOR.norm();
+  var y : i32 = HEIGHT - 1;
+  var x : i32 = WIDTH - 1;
+  while (y >= 0) {
+    while (x >= 0) {
+      var p : Vector = COLOR_DARK_GRAY_VECTOR;
+      var r : i32 = 0;
+      while (r < SUB_SAMPLES) {
+        const red   = @floatToInt(i32, p.x);
+        const green = @floatToInt(i32, p.y);
+        const blue  = @floatToInt(i32, p.z);
+        const stdout = std.io.getStdOut().writer();
+
+        // ./card-raytracer.zig:93:9: error: expected type 'void', found 'std.os.WriteError'
+        // try stdout.print("Hello, {s}!\n", .{"world"});
+        
+        try stdout.print("Hello, {s}!\n", .{"world"});
+        r = r + 1;
+      }
+    }
+    y = y - 1;
+  }
 }
 
 pub fn main() !void {
