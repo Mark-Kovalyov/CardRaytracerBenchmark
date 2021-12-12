@@ -1,4 +1,4 @@
-onst std = @import("std");
+const std = @import("std");
 
 /// 12-Nov-2021 - mayton : In beginning...
 
