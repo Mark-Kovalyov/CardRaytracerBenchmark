@@ -33,17 +33,19 @@
  5. Dmitriy (dmitriyt)
 
  6. Igor Yudincev (wolfnstein)
- 
+
  7. Siemargl
- 
+
  8. DRSM
- 
- 
+
+ 9. vadimalekseev
+
+
 
 # REPORTS
 
 ## Hardware configuration details
-| Parameter           | Value 
+| Parameter           | Value
 |---------------------|-------
 |Architecture:        |x86_64
 |CPU op-mode(s):      |32-bit, 64-bit
@@ -106,16 +108,17 @@ Mayton | Java | 3 threads  | ?
 Mayton | Java | 4 threads  | ?
 Mayton | Java | 5 threads  | ?
 
+### GoLang (Linux 5.15.0-52-generic 20.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux)
+|Author        | Language/Type        | Options | Elapsed time | Date
+|--------------|----------------------|---------|--------------|------
+|vadimalekseev | go1.13.8 linux/amd64 |         | 18.5 s       | 19-Nov-2022
+|DRSM          | go1.10.4 linux/amd64 |         | 23 s
+
 ### Digital Mars D : gdc (Ubuntu 8-20180414-1ubuntu2) 8.0.1 20180414 (experimental) (no up-to-date!)
 
 Language/Type | Options | Elapsed time
 --------------|---------|-------------
 Dlang | -O2 -msse4 -ffast-math | 21.14 s
-
-### GoLang (Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 29-Feb-2020
-Author | Language/Type | Options | Elapsed time
-|------|---------------|---------|-------------
-DRSM | go1.10.4 linux/amd64 |  | 23 s
 
 ### Free Pascal (Linux 5.3.0-28-generic 18.04.1-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux) 29-Feb-2020
 
@@ -136,7 +139,7 @@ Language/Type | Options | Elapsed time
 
 ### C#/.Net (The Mono C# compiler is Copyright 2001-2011, Novell, Inc) (non up-to-date!)
 
-Language/Type | Options | Multithread options | Elapsed time 
+Language/Type | Options | Multithread options | Elapsed time
 --------------|---------|---------------------|-------------
 |C#/Single-Thread | -o+ |                     | 75.31
 |C#/Multi-Thread  | -o+ | 2 threads           | 37.67
@@ -169,7 +172,7 @@ Language/Type | Options | Elapsed time
  A: Try to use:
      - http://www.irfanview.com/  
      - http://www.libreoffice.org/
-    
+
 
 
 
